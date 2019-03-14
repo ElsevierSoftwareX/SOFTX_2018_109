@@ -1,0 +1,165 @@
+%---------------------------------------------------------------------------------------------
+%
+%------------------------------- LEAST SQUARES --------------------------------------------------
+%
+%---------------------------------------------------------------------------------------------
+
+\section{Ordinary least squares - long not in documentation} \label{ls}
+The (ordinary) least squares regression is an optimization method to fit the data $(x_i, y_i)$ with a function $f(x_i;\beta_a)$, $\beta_a$ being the (unknown) parameters.
+It is based on the minimization of the sum of vertical distances of datapoints from the curve 
+\begin{equation*}
+ S = \sum_{i=1}^n (y_i - f(x_i; \beta_a))^.
+\end{equation*} 
+The problem can be solved analytically if the function $f(x;\beta)$ is linear in the parameters $\beta$, (linear regression).
+
+\subsection{least squares: straight line}
+Fitting a straight line
+\begin{equation}
+ y = f(x) = ax +b,
+\end{equation}
+ using least squares is probably the most common case and is widely used.
+The derivatives of $S$ with respect to the parameters $a$ and $b$ are
+\begin{eqnarray*}
+ \ddp{S}{a} &=& \sum_{i=1}^n 2(y_i - ax_i -b) (-x_i) \\
+ \ddp{S}{b} &=& \sum_{i=1}^n 2 (y_i - ax_i -b) (-1),
+\end{eqnarray*}
+which corresponds to the system of linear equations
+\begin{equation} \label{eq:ls_equations}
+ \left( \begin{array}{cc}    
+    \sum_{i=1}^n x_i^2  & \sum_{i=1}^n x_i  \\
+    \sum_{i=1}^n x_i    & n
+ \end{array}\right) 
+ \left( \begin{array}{c}
+    a \\ b        
+ \end{array} \right)
+ =
+ \left( \begin{array}{c}
+    \sum_{i=1}^n x_i y_i \\  \sum_{i=1} y_i        
+ \end{array} \right).
+\end{equation}
+Denoting the matrix on the left hand side as $A$ we find its inverse as
+\begin{equation} \label{eq:ls_inverse}
+ A^{-1} = \frac1{\mathrm{det} A}\left( \begin{array}{cc}
+                  n & - \sum_{i=1}^n x_i\\ -\sum_{i=1}^n x_i & \sum_{i=1}^n x_i^2
+                 \end{array} \right)
+\end{equation}
+where the determinant is
+$$
+\mathrm{det} A = n \sum_{i=1}^n x_i^2 - \left( \sum_{i=1}^n x_i \right)^2 = n^2 (\overline{x^2} - \left(\bar x\right)^2 ). 
+$$
+The slope and intercept are then
+\begin{eqnarray*}
+ a &=& \frac{n \sum_{i=1}^n x_i y_i - \sum_{i=1}^n x_i \sum_{j=1}^n y_j}{ n \sum_{i=1}^n x_i^2 - \left( \sum_{i=1}^n x_i \right)^2} \\
+ &=& \frac{ \overline{xy} -  \bar x\bar y }{ \overline{x^2} - \left( \bar x\right)^2} \\
+ b &=& \frac{-\sum_{i=1}^n x_i\sum_{j=1}^n x_j y_j + \sum_{i=1}^n x_i^2 \sum_{j=1} y_j}{ n \sum_{i=1}^n x_i^2 - \left( \sum_{i=1}^n x_i \right)^2} \\
+ &=& \frac{ \overline{x^2} \bar y - \bar x \, \overline{xy}}{\overline{x^2} - \left( \bar x\right)^2}\\
+ &=& \frac{ \overline{x^2} \bar y - \left(\bar x\right)^2 \bar y + \left(\bar x\right)^2 \bar y - \bar x \, \overline{xy}}{\overline{x^2} - \left( \bar x\right)^2}\\
+ &=& \bar y - \bar x \frac{\overline{xy} - \bar x \bar y }{\overline{x^2} - \left( \bar x\right)^2} \\
+ &=&\bar y - a \bar x 
+\end{eqnarray*}
+
+\subsection{least squares: uncertainties a la GUM}
+Uncertainties can be calculated by two ways: either using the law of propagation or as the inverse of the Hessian matrix (partial derivatives of the sum of squares with respect to the parameters).
+By calculating explicitly all derivatives
+\begin{eqnarray}
+ u(a)^2 &=& \underbrace{\sum_{i=1}^n \left(\ddp{a}{x_i}\right)^2 u(x_i)^2}_{u(a;x)^2} + \underbrace{\sum_{i=1}^n \left(\ddp{a}{y_i}\right)^2 u(y_i)^2}_{u(a;y)^2} \\
+ u(b)^2 &=& \underbrace{\sum_{i=1}^n \left(\ddp{b}{x_i}\right)^2 u(x_i)^2}_{u(b;x)^2} + \underbrace{\sum_{i=1}^n \left(\ddp{b}{y_i}\right)^2 u(y_i)^2}_{u(b;y)^2} \\
+ \cov(a,b) &=& \underbrace{ \sum_{i=1}^n \ddp{a}{x_i} \ddp{b}{x_i} u(x_i)^2 }_{\cov(a,b;x)} + \underbrace{\sum_{i=1}^n \ddp{a}{y_i} \ddp{b}{y_i} u(y_i)^2}_{\cov(a,b;y)}
+ \end{eqnarray}
+The derivatives of the slope are
+\begin{eqnarray*}
+ \ddp{a}{x_i} &=& \frac{[n y_i - \sum y][n \sum x^2 - \left( \sum x\right)^2] -[n \sum xy - \sum x \sum y][n 2 x_i - 2 \sum x]}{\left[ n \sum x^2 - \left( \sum x\right)^2 \right]^2} \\
+ &=& \frac{n y_i - \sum y}{\sum x^2 - \left( \sum x\right)^2} - 2a \frac{n x_i - \sum x}{n \sum x^2 - \left( \sum x\right)^2} \\
+ \ddp{a}{y_i} &=& \frac{n x_i - \sum x}{n \sum x^2 - \left( \sum x\right)^2}
+ \end{eqnarray*}
+
+The derivatives of intercept  are
+\begin{eqnarray*}
+ \ddp{b}{x_i} &=& - \ddp{a}{x_i} \bar x - a \frac1n \\
+ \ddp{b}{y_i} &=& \frac1n - \ddp{a}{y_i} \bar x
+\end{eqnarray*}
+
+If the variances are the same for all $x_i$ and $y_i$ we can simplify the previous expressions
+\begin{eqnarray*}
+ u(a;x)^2 &=& \sum_{i=1}^n \left(\ddp{a}{x_i}\right)^2 u(x_i)^2 \\
+ &=& u(x)^2 \sum_{i=1}^n \left[\frac{n y_i - \sum y}{\sum x^2 - \left( \sum x\right)^2} - 2a \frac{n x_i - \sum x}{n \sum x^2 - \left( \sum x\right)^2} \right]^2 \\
+ &=& u(x)^2 \sum_{i=1}^n \left[ \frac{\left[n y_i - \sum y\right]^2}{\left[\sum x^2 - \left( \sum x\right)^2\right]^2} 
+ - 4a \frac{(nx_i - \sum x)(ny_i - \sum y)}{\left[\sum x^2 - \left( \sum x\right)^2\right]^2} + \right. \\
+&& + \left. 4 a^2 \frac{(nx_i - \sum x)^2}{\left[\sum x^2 - \left( \sum x\right)^2\right]^2} 
+ \right]\\
+ &=& \frac{u(x)^2}{\left[\sum x^2 - \left( \sum x\right)^2\right]^2} \sum_{i=1}^n \left[ n^2 y_i^2 - 2 n y_i \sum y + (\sum y)^2  \right. - \\
+ &&- 4a (n^2 x_i y_i - n x_i \sum y - n y_i \sum x + \sum x \sum y) +  \\
+&& + \left. 4 a^2 (n^2 x_i^2 -2nx_i \sum x+ (\sum x)^2)^2 \right] \\
+ &=& \frac{u(x)^2}{\left[n \overline{x^2} - \left( n \bar x\right)^2\right]^2}
+ \left[ n^3 \overline{y^2} - n (n \bar y)^2 
+ - 4a ( n^2 n \overline{xy} - n^3 \bar x \bar y)   +
+  4 a^2 (n^3 \overline{x^2} - n (n\bar x)^2) \right] \\
+ &=& \frac{n u(x)^2}{\left[\overline{x^2} - \left( \bar x\right)^2\right]^2} 
+ \left[ \overline{y^2} - ( \bar y)^2 
+ - 4a (  \overline{xy} - \bar x \bar y)   +
+  4 a \frac{\overline{x^2} - \bar x \bar y}{\overline{x^2} - \bar x \bar y} (\overline{x^2} - (\bar x)^2) \right]\\
+  &=& n u(x)^2\frac{\overline{y^2} - ( \bar y)^2}{\left[\overline{x^2} - \left( \bar x\right)^2\right]^2}  \\
+ u(a;y)^2 &=& \sum_{i=1}^n \left(\ddp{a}{y_i}\right)^2 u(y_i)^2 \\
+ &=& u(y)^2 \sum_{i=1}^n \frac{(n x_i - \sum x)^2}{(n\sum x^2 - \left( \sum x\right)^2)^2} \\
+ &=& \frac{u(y)^2}{(n\sum x^2 - \left( \sum x\right)^2)^2} \sum_{i=1}^n ( n^2 x_i^2 - 2n x_i \sum x + (\sum x)^2) \\
+ &=& \frac{u(y)^2}{(n\sum x^2 - \left( \sum x\right)^2)^2} ( n^2 \sum x_i^2 - n (\sum x)^2) \\
+ &=& \frac{n u(y)^2}{n\sum x^2 - \left( \sum x\right)^2} \\
+ &=& \frac1n \frac{ u(y)^2}{\overline x^2 - \left( \bar x\right)^2} 
+ \end{eqnarray*}
+For $b$ we find
+\begin{eqnarray*}
+ u(b;x)^2 &=& \sum_{i=1}^n \left(\ddp{b}{x_i}\right)^2 u(x_i)^2 \\
+ &=& \sum_{i=1}^n \left( - \ddp{a}{x_i} \bar x - a \frac1n \right)^2 u(x_i)^2 \\
+ &=& \left(\bar x\right)^2 u(a;x)^2 + a^2 \frac1n u(x)^2 + 2 u(x)^2 \sum_{i=1}^n \ddp{a}{x_i} \bar x a \frac1n \\
+ &=& \left(\bar x\right)^2 u(a;x)^2 + a^2 \frac1n u(x)^2 + 2 u(x)^2 \frac{\bar x a}n \sum_{i=1}^n \left(  \ddp{a}{s_{xx}}  \frac2{n} (x_i - \bar x) + \ddp{a}{s_{xy}} \frac1n (y_i - \bar y)\right) \\
+ &=& \left(\bar x\right)^2 u(a;x)^2 + \frac{a^2}n u(x)^2 \\
+ u(b;y)^2 &=& \sum_{i=1}^n \left(\ddp{b}{y_i}\right)^2 u(y_i)^2 \\
+ &=& \sum_{i=1}^n \left(\frac1n - \ddp{a}{y_i} \bar x\right)^2 u(y_i)^2 \\
+ &=& u(y)^2 \frac1n + \left(\bar x \right)^2 u(a;y)^2 - 2 \frac1n u(y)^2 \sum_{i=1}^n \left(  \ddp{a}{s_{yy}}  \frac2{n} (y_i - \bar y) + \ddp{a}{s_{xy}} \frac1n (x_i - \bar x)\right) \\ 
+ &=& u(y)^2 \frac1n + \left(\bar x \right)^2 u(a;y)^2
+\end{eqnarray*}
+For the covariance we have
+\begin{eqnarray*}
+ \cov(a,b;x) &=& \sum_{i=1}^n \ddp{a}{x_i} \ddp{b}{x_i} u(x_i)^2 \\
+  &=&  \sum_{i=1}^n \ddp{a}{x_i}\left( - \ddp{a}{x_i} \bar x - a \frac1n \right) u(x_i)^2 \\
+  &=& - u(a;x)^2 \bar x \\
+ \cov(a,b;y) &=& \sum_{i=1}^n \ddp{a}{y_i} \ddp{b}{y_i} u(y_i)^2 \\
+  &=&  \sum_{i=1}^n \ddp{a}{y_i}\left( \frac1n - \ddp{a}{y_i} \bar x \right) u(y_i)^2 \\
+  &=& -u(a;y)^2\bar x
+\end{eqnarray*}
+
+\subsection{least squares - Hessian}
+The covariance matrix can be written as the inverse of the Hessian matrix
+\begin{equation}
+ U_{ij} = \frac12 \ddp{^2S}{\beta_i \beta_j}^{-1} u_y^2
+\end{equation}
+where $S$ is the sum of squares
+\begin{equation*}
+ S = \sum_{i=1}^n (y_i - a x_i - b)^2,
+\end{equation*} 
+and $\beta_i$ are the parameters $a$ and $b$.
+The second derivatives are 
+\begin{eqnarray*}
+ \frac12 \ddp{^2S}{a^2} &=& \sum_{i=1}^n  (x_i )^2 \\
+ \frac12 \ddp{^2S}{a \partial b} &=& \sum_{i=1}^n  x_i  \\
+ \frac12 \ddp{^2 S} {b^2} &=& \sum_{i=1}^n 1 = n  \\
+  \end{eqnarray*}
+  
+Thus the covariance matrix is 
+\begin{eqnarray*}
+ U = \left(
+ \begin{array}{cc}
+  \sum_{i=1}^n x_i^2 & \sum_{i=1}^n x_i \\
+  \sum_{i=1}^n x_i & n
+ \end{array}
+\right)^{-1} u_y^2,
+\end{eqnarray*}
+this is the inverse of the matrix $A$ in eq. \eqref{eq:ls_equations}, given in \eqref{eq:ls_inverse}
+\begin{equation}
+ U = \frac1{n ( \overline{x^2} - (\bar x)^2)}\left( \begin{array}{cc}
+                                                       1  & - \bar x \\
+                                                       - \bar x &  \overline{x^2}
+                                                      \end{array}
+                                                      \right) u_y^2
+\end{equation}
+This is the same as the expressions found from the GUM-like approach.

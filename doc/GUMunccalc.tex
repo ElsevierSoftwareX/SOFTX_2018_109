@@ -1,0 +1,599 @@
+%---------------------------------------------------------------------------------------------
+%
+%------------------------------- GUM UNCERTAINTIES CALCULATIONS ------------------------------
+%
+%---------------------------------------------------------------------------------------------
+\section{Auxiliary - Do not include in documentation}
+Here we list lengthy calculations from different parts
+\subsection{ from section \ref{op_unc} step \ref{op_unc_hp}}
+Start with the law of propagation and use the fact that the uncertainties of all $h_i$ and $F_i$ are constant.
+ \begin{eqnarray*}
+  u(\hp)^2 &=& \sum_{i=1}^n  \left( \ddp{ \hp}{h_i} \right)^2 u(h_i)^2 + \sum_{i=1}^n   \left( \ddp{ \hp}{F_i} \right)^2 u(F_i)^2 \\
+   &=& \underbrace{u(h)^2 \sum_{i=1}^n  \left( \ddp{ \hp}{h_i} \right)^2}_{u(\hp; h)^2} + \underbrace{u(F)^2 \sum_{i=1}^n  \left( \ddp{ \hp}{F_i} \right)^2}_{u(\hp; F)^2} 
+ \end{eqnarray*}
+ Since $\hp$ can be also viewed as a function of $\ahp$ and  $\bhp$, which in turn are functions of $h_i$ and $F_i$, we can use the chain rule for derivatives for the contribution from the depth $h$
+ \begin{eqnarray*}
+  u(\hp; h)^2 &= &  
+  u(h)^2 \sum_{i=1}^n  \left( 
+  \ddp{ \hp}{\ahp} \ddp{ \ahp}{h_i} + 
+  \ddp{ \hp}{\bhp} \ddp{\bhp}{h_i}
+  \right)^2 = \\
+  &= & u(h)^2 \sum_{i=1}^n \left[  
+  \left( \ddp{\hp}{\ahp}  \right) ^2 
+  \left(\ddp{ \ahp}{h_i} \right)^2 + 
+  2 \ddp{ \hp}{ \ahp} \ddp{ \ahp}{ h_i} \ddp{ \hp}{ \bhp}\ddp{ \bhp}{ h_i} + \right.\\
+  &&  \left. \phantom{u(h)^2 \sum_{i=1}^n} +
+  \left(\ddp{ \hp}{ \bhp}\right)^2
+  \left(\ddp{ \bhp}{ h_i}\right)^2  \right] \\
+  &=& 
+  \left( \ddp{ \hp}{ \ahp}  \right) ^2 
+  \underbrace{\sum_{i=1}^n \left(\ddp{ \ahp}{ h_i} \right)^2
+  u(h)^2 }_{u(\ahp;h)^2} +
+  \left( \ddp{ \hp}{ \bhp}  \right) ^2 
+  \underbrace{\sum_{i=1}^n \left(\ddp{ \bhp}{ h_i} \right)^2
+   u(h)^2 }_{u(\bhp;h)^2} + \\
+   & & + 2 \ddp{ \hp}{ \ahp} \ddp{ \hp}{ \bhp} 
+   \underbrace{\sum_{i=1}^n \ddp{ \ahp}{ h_i} \ddp{ \bhp}{ h_i}}_{=\cov(\ahp, \bhp;h)}.
+ \end{eqnarray*}
+Inserting the derivatives we get
+ \begin{eqnarray*}
+ u(\hp; h)^2  &=&  \left( \frac{\bhp u(\ahp; h)}{\ahp^2} \right)^2 +\left(\frac{u(\bhp; h)}{\ahp} \right)^2 - 2  \frac{\bhp}{\ahp^3} \cov(\ahp, \bhp; h)
+ \end{eqnarray*}
+The expression for   $u(\hp; F)^2 $ is analoguous.
+ 
+
+ \subsection{section \ref{op_unc}  step \ref{op_unc_eps}}
+%-----------eps --------------
+For the uncertainty of $\varepsilon$ we need its derivative with respect to $m$
+\begin{eqnarray*}
+  u(\varepsilon) = \frac{\mathrm{d} \varepsilon}{ \mathrm{d} m} u(m) = \\
+  \end{eqnarray*}
+  Denote $z = m/[2(m-1)]$ and $w = 1/[2(m-1)]$ for the calculation of the derivative
+  \begin{eqnarray*}
+   \frac{\mathrm{d} \varepsilon}{\mathrm{d} m} &=& \frac{\mathrm{d} }{\mathrm{d} m} m \left(1-\frac{2(m-1) \Gamma\left(z\right)}{\sqrt{\pi}\Gamma\left(w\right)} \right) \\
+   &=& \left(1-\frac{2(m-1) \Gamma\left(z\right)}{\sqrt{\pi}\Gamma\left(w\right)} \right)   
+       - \frac{2m}{\sqrt{\pi}}  \frac{\Gamma\left(z\right)}{\Gamma\left(w\right)}
+       - \frac{2m(m-1)}{\sqrt{\pi}} \frac{1}{\Gamma \left( w \right)} \frac{\mathrm{d} \Gamma(z)}{\mathrm{d} m} \\
+       && + \frac{2m(m-1)}{\sqrt{\pi}} \frac{ \Gamma \left(z\right)  }{\Gamma \left( w \right)^2} \frac{\mathrm{d} \Gamma(w)}{\mathrm{d} m}.
+       \end{eqnarray*}
+       Use the polygamma function $\psi_0(z) = \frac{1}{\Gamma(z)} \frac{\mathrm{d} \Gamma(z)}{ \mathrm{d} z}$ and $\frac{\mathrm{d} z}{\mathrm{d} m} = \frac{\mathrm{d} w}{\mathrm{d} m} = -\frac{1}{2 (m-1)^2}$ to rewrite to derivatives and simplify
+  \begin{eqnarray*}
+  \frac{\mathrm{d} \varepsilon}{\mathrm{d} m} &= & 
+  \frac{\varepsilon}{m}
+  - \frac{2m}{\sqrt{\pi}}  \frac{\Gamma\left(z\right)}{\Gamma\left(w\right)}
+       - \frac{2m(m-1)}{\sqrt{\pi}} \frac{\Gamma\left(z\right)}{\Gamma \left( w \right)} \left(\frac{1}{\Gamma(z)} \frac{\mathrm{d} \Gamma(z)}{\mathrm{d} z} - \frac{1}{\Gamma(w)}\frac{\mathrm{d} \Gamma(w)}{\mathrm{d} w} \right) \frac{-1}{2(m-1)^2}\\   
+       \shortintertext{since $ 1/\sqrt{\pi} \frac{\Gamma\left(z\right)}{\Gamma \left( w \right)} = (1- \varepsilon/m) 1/[2(m-1)]$ } 
+       &=&  \frac{\varepsilon}{m} - \frac{2m }{2(m-1)}(1- \varepsilon/m)  + \frac{2m(m-1)}{2(m-1)^2} \frac1{2(m-1)} (1- \varepsilon/m)  (\psi_0(z)-\psi_0(w)) \\
+         &= &\frac{\varepsilon}{m} + \frac{m}{m -1} \left(\frac{\varepsilon}{m} -1\right) - \frac{m}{2(m-1)^2}\left(\frac{\varepsilon}{m} -1\right) (\psi_0(z)-\psi_0(w)).
+ \end{eqnarray*}
+ 
+\subsection{section \ref{op_unc}  step \ref{op_unc_S_hc} and \ref{opodr_unc}, step \ref{opodr_unc_S_hc}} 
+%-----------S --------------
+The uncertainty of the slope can be written in terms of the already known uncertainties
+\begin{eqnarray*}
+ u(S;h)^2 &=& 
+ \left( \ddp{ S}{ m}\right)^2 u(m;h)^2 + 
+ \left( \ddp{ S}{ \hmax} \right)^2 u(\hmax;h)^2 + \\ 
+  && +\left( \ddp{ S}{ \Fmax}\right)^2 u(F_\mathrm{max;h})^2 + 
+  \left( \ddp{ S}{ \hp}\right)^2 u(\hp;h)^2 +
+   \\
+  && + 2  \ddp{ S}{ m}\ddp{ S}{ \hmax} \cov(m,\hmax;h)  
+  + 2  \ddp{ S}{ m}\ddp{ S}{ \Fmax} \cov(m,\Fmax;h)  + \\
+   && + 2  \ddp{ S}{ m}\ddp{ S}{ \hp} \cov(m,\hp;h)  
+  + 2  \ddp{ S}{ \hmax}\ddp{ S}{ \Fmax} \cov(\hmax,\Fmax;h)  + \\
+  && + 2  \ddp{ S}{ \hmax}\ddp{ S}{ \hp} \cov(\hmax,\hp;h) +
+  2  \ddp{ S}{ \Fmax}\ddp{ S}{ \hp} \cov(\Fmax,\hp;h) 
+  \end{eqnarray*}
+The uncertainty in the depth does not contribute to the uncertainty of $F_{max}$ hence all terms including $\Fmax$ are zero. 
+Since $h_{max}$ is usually not included in any fitting range (certainly not for $\hp$ and most likely neither for the $m$ fit) we can set its covariance with $m$ and $\hp$ to zero.
+For the Oliver Pharr model we use two different intervals for the fitting procedures which usually do not overlap. We can thus regard $m$ and $\hp$ to depend on different datapoints and thus their covariance is zero. 
+For the ODR fit we fit both $m$ and $\hp$, therefore the covariance is usually nonzero.
+This means we are left with 
+\begin{eqnarray*}
+ u(S;h)^2 &=& 
+ \left( \ddp{ S}{ m}\right)^2 u(m;h)^2 + 
+ \left( \ddp{ S}{ \hmax} \right)^2 u(\hmax;h)^2 + \\ 
+  &&  + \left( \ddp{ S}{ \hp}\right)^2 u(\hp;h)^2 
+   + 2  \ddp{ S}{ m}\ddp{ S}{ \hp} \cov(m,\hp;h)  
+  \end{eqnarray*}
+Inserting the derivatives and $u(\hmax)=u(h)$ we get
+\begin{eqnarray*}
+ u(S;h)^2 &=& 
+ \left( \frac{S}{m}\right)^2 u(m;h)^2 + 
+ \left( \frac{S}{\hmax-\hp} \right)^2 u(h)^2 + \\ 
+  &&  + \left( \frac{S}{\hmax- \hp}\right)^2 u(\hp;h)^2 + \\
+  &&
+   + 2  \frac{S^2}{m(\hmax -  \hp)} \cov(m,\hp;h)  
+  \end{eqnarray*}
+The contribution from the load is similar
+\begin{eqnarray*}
+ u(S;F)^2 &=& 
+ \left( \ddp{ S}{ m}\right)^2 u(m;F)^2 + 
+ \left( \ddp{ S}{ \Fmax}\right)^2 u(F_\mathrm{max;F})^2 + \\
+&&   + \left( \ddp{ S}{ \hp}\right)^2 u(\hp;F)^2 +
+   2  \ddp{ S}{ m}\ddp{ S}{ \hp} \cov(m,\hp;F)   
+  \end{eqnarray*}
+inserting the derivatives
+\begin{eqnarray*}
+ u(S;F)^2 &=& 
+ \left( \frac{S}{m}\right)^2 u(m;F)^2 + 
+ \left( \frac{S}{\Fmax} \right)^2 u(F)^2 + \\ 
+  &&  + \left( \frac{S}{\hmax- \hp}\right)^2 u(\hp;F)^2 + \\
+  &&
+   + 2  \frac{S^2}{m(\hmax - \hp)} \cov(m,\hp;F)  
+  \end{eqnarray*}
+%  
+%-----------hc --------------
+  It is easier to calculate the uncertainties if we write the contact depth as 
+  $$
+  \hc = \hmax - \frac{\varepsilon}{m} (\hmax - \hp) 
+  $$
+  The contributions from the depth to the uncertainty of the contact depth $\hc$ is 
+  \begin{eqnarray*}
+ u(\hc;h)^2 &=& 
+ \left( \ddp{ \hc}{ m }\right)^2 u(m;h)^2 + 
+ \left( \ddp{ \hc}{ \hmax} \right)^2 u(\hmax;h)^2 + \\ 
+  &&  + 
+  \left( \ddp{ \hc}{ \hp}\right)^2 u(\hp;h)^2 +
+   2  \ddp{ \hc}{ m}\ddp{ \hc}{ \hmax} \cov(m,\hmax;h)  
+  +  \\
+   && + 2  \ddp{ \hc}{ m}\ddp{ \hc}{ \hp} \cov(m,\hp;h)  
+  +  2  \ddp{ \hc}{ \hmax}\ddp{ \hc}{ \hp} \cov(\hmax,\hp;h) 
+  \end{eqnarray*}
+We can use the same reasoning as for $S$ to drop the term with the covariance between $\hp$ and $\hmax$ and between $m$ and $\hmax$.
+%Using the chain rule we can write the covariance between $\varepsilon$ and $\hp$ in terms of the covariance of $m$ and $\hp$
+%\begin{eqnarray*}
+% \cov(\varepsilon,\hp;h) &=& \sum_{i=1}^n \ddp{ \varepsilon}{ h_i} \ddp{ \hp}{ h_i} u(h_i)^2 
+% = \sum_{i=1}^n \depsdm\ddp{ m}{ h_i} \ddp{ \hp}{ h_i} u(h_i)^2 =\\
+%  & =& \depsdm \cov(m,\hp;h)
+%\end{eqnarray*}
+Insert the derivatives and obtain
+  \begin{eqnarray*}
+ u(\hc;h)^2 &=& 
+   \left( \hmax - \hp \right)^2 \left( \frac{\varepsilon}{m^2} - \frac1m \depsdm \right)^2 u(m;h)^2 + 
+ \left( 1- \frac{\varepsilon}{m}\right)^2 u(\hmax;h)^2 + \left(\frac{\varepsilon }{m} \right)^2 u(\hp;h)^2 +
+    \\  && + 2 \left( \hmax - \hp \right) \left( \frac{\varepsilon}{m^2} - \frac1m \depsdm \right) \frac{\varepsilon }{m}  \cov(m,\hp;h)   
+  \end{eqnarray*}
+The contribution of the load uncertainty is even simpler because $u(\hmax;F) =0 $
+  \begin{eqnarray*}
+u(\hc;F)^2 &=& 
+   \left( \hmax - \hp \right)^2 \left( \frac{\varepsilon}{m^2} - \frac1m \depsdm \right)^2 u(m;F)^2 + 
+  \left(\frac{\varepsilon }{m} \right)^2 u(\hp;F)^2 +
+    \\  && + 2 \left( \hmax - \hp \right) \left( \frac{\varepsilon}{m^2} - \frac1m \depsdm \right) \frac{\varepsilon }{m}  \cov(m,\hp;F)   
+  \end{eqnarray*}
+
+For the two step Oliver Pharr method in section \ref{op_calc} the covariance between $m$ and $\hp$ must be calculated.
+\subsection{section \ref{op_unc}, step \ref{op_unc_H_E}}
+%------------------------------Hit--------------------------------
+The uncertainty of the hardness can be written in terms of the already known uncertainties
+\begin{eqnarray*}
+ u(\Hit;h)^2 &=& 
+ \left( \ddp{ \Hit}{ \Fmax}\right)^2 u(\Fmax;h)^2 + 
+ \left( \ddp{ \Hit}{ \Ap(\hc)} \right)^2 u(\Ap(\hc);h)^2 + \\ 
+  && + 2  \ddp{ \Hit}{ \Fmax}\ddp{ \Hit}{ \Ap(\hc)} \cov(\Fmax,\Ap(\hc);h)  
+  \end{eqnarray*}
+The uncertainty of $\Fmax$ is $uF$ and thus $u(\Fmax;h)$ and $\cov(\Fmax,\Ap(\hc);h) $ are both zero.
+This leaves us with
+\begin{eqnarray*} 
+u(\Hit;h)&=& 
+   \frac{\Hit}{\Ap(\hc)} \ddp{ \Ap}{ \hc} u(\hc;h)
+\end{eqnarray*}
+For the contribution of the force we get
+\begin{eqnarray*}
+ u(\Hit;F)^2 &=& 
+ \left( \ddp{ \Hit}{ \Fmax}\right)^2 u(\Fmax;F)^2 + 
+ \left( \ddp{ \Hit}{ \Ap(\hc)} \right)^2 u(\Ap(\hc);F)^2 + \\ 
+  && + 2  \ddp{ \Hit}{ \Fmax}\ddp{ \Hit}{ \Ap(\hc)} \cov(\Fmax,\Ap(\hc);F) \\
+  &=& 
+ \left( \frac{\Hit}{ \Fmax}\right)^2 u(F)^2 + 
+ \left( \frac{\Hit}{\Ap(\hc)} \right)^2 \left(\ddp{ \Ap}{ \hc}  \right)^2 u(\hc;F)^2 + \\ 
+  && - 2  \frac{\Hit}{\Fmax}\frac{\Hit}{\Ap(\hc)} \ddp{ \Ap}{ \hc}  \cov(\Fmax,\hc;F)  
+  \end{eqnarray*}
+The covariance $\cov(\Fmax,\hc;F)$ is
+\begin{eqnarray*}
+ \cov(\Fmax,\hc;F) &=& \sum_{i=1}^n \ddp{ \Fmax}{ F_i} \ddp{ \hc}{ F_i} u(F_i)^2 = \\
+ &=& \left. \ddp{ \hc}{ F_i} \right|_{i=imax} u(F)^2 
+\end{eqnarray*}
+where $imax$ is the index of $\Fmax$, i.e. $F_{imax}=\Fmax$.
+Calculate the derivative
+\begin{eqnarray*}
+ \ddp{ }{ F_i} \hmax - \varepsilon (\hmax-\hp) =
+ - \ddp{ \varepsilon}{ F_i} (\hmax-\hp) +  \varepsilon \ddp{ \hp}{ F_i} = \\
+ =- \depsdm \ddp{ m}{ F_i} (\hmax-\hp) +  \varepsilon \ddp{ \hp}{ F_i}
+\end{eqnarray*}
+Usually the point $\Fmax$ is not included in none of the fitting ranges and therefore neither $m$ nor $\hp$ depend on it. Thus the covariance $\cov(\Fmax,\hc;F)$ is zero leaving us with
+\begin{eqnarray*}
+ u(\Hit;F)^2 &=& 
+ \left( \frac{\Hit}{ \Fmax}\right)^2 u(F)^2 + 
+ \left( \frac{\Hit}{\Ap(\hc)} \right)^2 \left(\ddp{ \Ap}{ \hc}  \right)^2 u(\hc;F)^2
+\end{eqnarray*}
+%------------------------------Er--------------------------------
+The uncertainty of the contact modulus can be written in terms of the already known uncertainties
+\begin{eqnarray*}
+ u(\Er;h)^2 &=& 
+ \left( \ddp{ \Er}{ S}\right)^2 u(S;h)^2 + 
+ \left( \ddp{ \Er}{ \Ap(\hc)} \right)^2 u(\Ap(\hc);h)^2 + \\ 
+  && + 2  \ddp{ \Er}{ S}\ddp{ \Er}{ \Ap(\hc)} \cov(S,\Ap(\hc);h)  
+\end{eqnarray*}
+Inserting the derivatives we have
+\begin{eqnarray*}
+u(\Er;h)^2 &=& 
+ \left( \frac{ \Er}{ S}\right)^2 u(S;h)^2 + 
+ \left( \frac{ \Er}{ 2\Ap(\hc)} \right)^2 u(\Ap(\hc);h)^2 + \\ 
+  && -  \frac{ \Er}{ S}\frac{ \Er}{ \Ap(\hc)} \cov(S,\Ap(\hc);h)   
+\end{eqnarray*}
+
+The covariance is
+\begin{eqnarray*}
+ \cov(S,\Ap(\hc);h) & =& \sum_{i=1}^n \ddp{ S}{ h_i} \ddp{ \Ap}{ h_i} u(h_i)^2 =  \sum_{i=1}^n \ddp{ S}{ h_i} \ddp{ \Ap}{ \hc} \ddp{\hc}{h_i} u(h_i)^2 = \ddp{\Ap}{\hc} \cov(S,\hc;h)
+ \end{eqnarray*}
+ \begin{eqnarray*}
+\cov(S,\hc;h)  &=& \sum_{i=1}^n
+  \left[ 
+  \ddp{ S }{ m} \ddp{ m}{ h_i} + 
+  \ddp{ S }{ \hmax} \ddp{ \hmax}{ h_i} + 
+  \ddp{ S }{ \Fmax} \ddp{ \Fmax}{ h_i} + 
+  \ddp{ S }{ \hp} \ddp{ \hp}{ h_i}
+  \right]\\
+  && \phantom{\sum_{i=1}^n}
+  \left[
+  \ddp{ \hc }{ \varepsilon} \depsdm \ddp{ m}{ h_i} + 
+  \ddp{ \hc }{\hmax} \ddp{ \hmax}{ h_i} + 
+  \ddp{ \hc }{ \hp} \ddp{ \hp}{ h_i} 
+  \right]
+  \end{eqnarray*}
+  Since the load and the depth are independent, the terms with $\Fmax$ are zero and we are left with
+  \begin{eqnarray*}
+  \cov(S,\hc;h) &=& 
+  \ddp{ S }{ m} \ddp{ \hc }{ \varepsilon} \depsdm  \sum_{i=1}^n \left(\ddp{ m}{ h_i}\right)^2 +
+  \ddp{ S }{ \hmax} \ddp{ \hc }{ \varepsilon} \depsdm  \sum_{i=1}^n \ddp{ \hmax}{ h_i}  \ddp{ m}{ h_i} + \\
+  &&+ 
+  \ddp{ S }{ \hp} \ddp{ \hc }{ \varepsilon} \depsdm  \sum_{i=1}^n \ddp{ \hp}{ h_i}  \ddp{ m}{ h_i} +
+  \ddp{ S }{ m} \ddp{ \hc }{ \hmax}   \sum_{i=1}^n \ddp{ m}{ h_i} \ddp{ \hmax}{ h_i} +  \\
+  && 
+  \ddp{ S }{ \hmax} \ddp{ \hc }{ \hmax}  \sum_{i=1}^n \left(\ddp{ \hmax}{ h_i} \right)^2 +  
+  \ddp{ S }{ \hp} \ddp{ \hc }{ \hmax}  \sum_{i=1}^n \ddp{ \hp}{ h_i}  \ddp{ \hmax}{ h_i} + \\
+  &&+
+  \ddp{ S }{ m} \ddp{ \hc }{ \hp}   \sum_{i=1}^n \ddp{ m}{ h_i} \ddp{ \hp}{ h_i} +  
+  \ddp{ S }{ \hmax} \ddp{ \hc }{ \hp}  \sum_{i=1}^n \ddp{ \hmax}{ h_i}  \ddp{ \hp}{ h_i} + \\
+  &&+ 
+  \ddp{ S }{ \hp} \ddp{ \hc }{ \hp}  \sum_{i=1}^n \left(\ddp{ \hp}{ h_i}\right)^2  \\
+  &=& 
+  \ddp{ S }{ m} \ddp{ \hc }{ \varepsilon} \depsdm  u(m;h)^2  +
+  \ddp{ S }{ \hmax} \ddp{ \hc }{ \varepsilon} \depsdm  \cov(\hmax,m;h) + \\
+  &&+ 
+  \ddp{ S }{ \hp} \ddp{ \hc }{ \varepsilon} \depsdm  \cov(\hp, m;h) + 
+  \ddp{ S }{ m} \ddp{ \hc }{ \hmax}   \cov(m, \hmax;h) + \\ 
+  &&
+  + \ddp{ S }{ \hmax} \ddp{ \hc }{ \hmax} u(\hmax;h)^2 + 
+  \ddp{ S }{ \hp} \ddp{ \hc }{ \hmax}  \cov(\hp, \hmax;h) + \\
+  &&+
+  \ddp{ S }{ m} \ddp{ \hc }{ \hp}  \cov(m,\hp;h) +  
+  \ddp{ S }{ \hmax} \ddp{ \hc }{ \hp} \cov(\hmax,\hp;h) + \\
+  &&+ 
+  \ddp{ S }{ \hp} \ddp{ \hc }{ \hp} u(\hp;h)^2  \\ 
+  \end{eqnarray*}
+With the same reasoning as above we can set the terms $\cov(\hmax,m;h)$, $\cov(\hmax, \hp;h)$ to zero.
+ \begin{eqnarray*}
+  \cov(S,\hc;h) 
+  &=& 
+  \ddp{ S }{ m} \ddp{ \hc }{ \varepsilon} \depsdm  u(m;h)^2  +
+  \ddp{ S }{ \hp} \ddp{ \hc }{ \varepsilon} \depsdm  \cov(\hp, m;h) + \\
+  &&+
+  \ddp{ S }{ \hmax} \ddp{ \hc }{ \hmax} u(\hmax;h)^2 + 
+  \ddp{ S }{ m} \ddp{ \hc }{ \hp}  \cov(m,\hp;h) +  \\
+  &&+ 
+  \ddp{ S }{ \hp} \ddp{ \hc }{ \hp} u(\hp;h)^2  \\ 
+  &=&
+   - \frac{S\left( \hmax - \hp\right)}{m}  \depsdm  u(m;h)^2  
+   - S\depsdm  \cov(\hp, m;h) + \\
+  &&
+  -\frac{ S(1-\varepsilon) }{ \hmax-\hp}  u(h)^2 + 
+  \frac{ S \varepsilon }{ m}   \cov(m,\hp;h) +  \\
+  &&+ 
+  \frac{ S \varepsilon}{\hmax- \hp}  u(\hp;h)^2  \\ 
+    \end{eqnarray*}
+
+The force contribution to the uncertainty of the contact modulus can be written in terms of the already known uncertainties
+\begin{eqnarray*}
+ u(\Er;F)^2 &=& 
+ \left( \ddp{ \Er}{ S}\right)^2 u(S;F)^2 + 
+ \left( \ddp{ \Er}{ \Ap(\hc)} \right)^2 u(\Ap(\hc);F)^2 + \\ 
+  && + 2  \ddp{ \Er}{ S}\ddp{ \Er}{ \Ap(\hc)} \cov(S,\Ap(\hc);F)  
+\end{eqnarray*}
+Inserting the derivatives we have
+\begin{eqnarray*}
+u(\Er;F)^2 &=& 
+ \left( \frac{ \Er}{ S}\right)^2 u(S;F)^2 + 
+ \left( \frac{ \Er}{ 2\Ap(\hc)} \right)^2 u(\Ap(\hc);F)^2 + \\ 
+  && -  \frac{ \Er}{ S}\frac{ \Er}{ \Ap(\hc)} \cov(S,\Ap(\hc);F)   
+\end{eqnarray*}
+
+The covariance is
+\begin{eqnarray*}
+ \cov(S,\Ap(\hc);F) & =& \sum_{i=1}^n \ddp{ S}{ F_i} \ddp{ \Ap}{ F_i} u(F_i)^2 =  \sum_{i=1}^n \ddp{ S}{ F_i} \ddp{ \Ap}{ \hc} \ddp{\hc}{F_i} u(F_i)^2 =
+ \ddp{\Ap}{\hc} \cov(S,\hc;F)
+ \end{eqnarray*}
+ \begin{eqnarray*}
+\cov(S,\hc;F)  &=& \sum_{i=1}^n
+  \left[ 
+  \ddp{ S }{ m} \ddp{ m}{ F_i} + 
+  \ddp{ S }{ \hmax} \ddp{ \hmax}{ F_i} + 
+  \ddp{ S }{ \Fmax} \ddp{ \Fmax}{ F_i} + 
+  \ddp{ S }{ \hp} \ddp{ \hp}{ F_i}
+  \right]\\
+  && \phantom{\sum_{i=1}^n}
+  \left[
+  \ddp{ \hc }{ \varepsilon} \depsdm \ddp{ m}{ F_i} + 
+  \ddp{ \hc }{\hmax} \ddp{ \hmax}{ F_i} + 
+  \ddp{ \hc }{ \hp} \ddp{ \hp}{ F_i} 
+  \right]
+  \end{eqnarray*}
+  Since the load and the depth are independent, the terms with $\hmax$ are zero and we are left with
+  \begin{eqnarray*}
+  \cov(S,\hc;F) &=& 
+  \ddp{ S }{ m} \ddp{ \hc }{ \varepsilon} \depsdm  \sum_{i=1}^n \left(\ddp{ m}{ F_i}\right)^2 +
+  \ddp{ S }{ \Fmax} \ddp{ \hc }{ \varepsilon} \depsdm  \sum_{i=1}^n \ddp{ \Fmax}{ F_i}  \ddp{ m}{ F_i} + \\
+  &&+
+  \ddp{ S }{ \hp} \ddp{ \hc }{ \varepsilon} \depsdm  \sum_{i=1}^n \ddp{ \hp}{ F_i}  \ddp{ m}{ F_i} + 
+  \ddp{ S }{ m} \ddp{ \hc }{ \hp}   \sum_{i=1}^n \ddp{ m}{ F_i} \ddp{ \hp}{ F_i} +  \\
+  &&+
+  \ddp{ S }{ \Fmax} \ddp{ \hc }{ \hp}  \sum_{i=1}^n \ddp{ \Fmax}{ F_i}  \ddp{ \hp}{ F_i} + 
+  \ddp{ S }{ \hp} \ddp{ \hc }{ \hp}  \sum_{i=1}^n \left(\ddp{ \hp}{ F_i}\right)^2  \\
+  &=&
+  \ddp{ S }{ m} \ddp{ \hc }{ \varepsilon} \depsdm  u(m;F)^2 +
+  \ddp{ S }{ \Fmax} \ddp{ \hc }{ \varepsilon} \depsdm  \cov(\Fmax,m; F) + \\
+  &&+
+  \ddp{ S }{ \hp} \ddp{ \hc }{ \varepsilon} \depsdm  \cov(\hp,m;F) + 
+  \ddp{ S }{ m} \ddp{ \hc }{ \hp}  \cov(m,\hp;F) +  \\
+  &&+
+  \ddp{ S }{ \Fmax} \ddp{ \hc }{ \hp} \cov(\Fmax,\hp;F) + 
+  \ddp{ S }{ \hp} \ddp{ \hc }{ \hp}  u(\hp,F)^2
+  \end{eqnarray*}
+With the same reasoning as above we can set the terms $\cov(\Fmax,m;F)$, $\cov(\Fmax, \hp;F)$ to zero.
+ \begin{eqnarray*}
+  \cov(S,\hc;F) 
+  &=&
+  \ddp{ S }{ m} \ddp{ \hc }{ \varepsilon} \depsdm  u(m;F)^2  +  \ddp{ S }{ \hp} \ddp{ \hc }{ \hp}  u(\hp,F)^2 \\
+  &&+
+  \ddp{ S }{ \hp} \ddp{ \hc }{ \varepsilon} \depsdm  \cov(\hp,m;F) + 
+  \ddp{ S }{ m} \ddp{ \hc }{ \hp}  \cov(m,\hp;F) \\
+  &=&
+   - \frac{ S }{ m} \left(\hmax -\hp\right) \depsdm  u(m;F)^2  +  \frac{ S \varepsilon }{\hmax - \hp} u(\hp,F)^2 \\
+  &&
+  - S \depsdm  \cov(\hp,m;F) + \frac{ S \varepsilon}{ m}  \cov(m,\hp;F) 
+  \end{eqnarray*}
+%--------------------------------------------------------------------------
+%                    TANGENT UNC
+%--------------------------------------------------------------------------
+  \subsection{section \ref{tg_unc}, step \ref{tg_unc_hc}}
+%-----------hc --------------
+% hmax - eps Fmax/S
+  The contributions from the depth to the uncertainty of the contact depth $\hc$ is 
+  \begin{eqnarray*}
+ u(\hc;h)^2 &=& 
+ \left( \ddp{\hc}{\hmax}\right)^2 u(\hmax;h)^2 + 
+ \left( \ddp{\hc}{\Fmax}\right)^2 u(\Fmax;h)^2 + 
+ \left( \ddp{\hc}{S}\right)^2 u(S;h)^2 + \\
+ &&+
+ 2 \ddp{\hc}{\hmax} \ddp{\hc}{\Fmax} \cov(\hmax, \Fmax;h)+
+ 2 \ddp{\hc}{\hmax} \ddp{\hc}{S} \cov(\hmax, S;h)+ \\
+ &&+
+ 2 \ddp{\hc}{S} \ddp{\hc}{\Fmax} \cov(S, \Fmax;h).
+ \end{eqnarray*}
+Since depth and load are independent $u(\Fmax;h)$ and any covariance with $\Fmax$ is zero. 
+We assume that the point of maximum depth is not included in the fit, thus $\cov(\hmax,S;h)$ is zero as well.
+\begin{eqnarray*}
+ u(\hc;h)^2 &=& 
+  \left( \ddp{\hc}{\hmax}\right)^2 u(\hmax;h)^2 + 
+  \left( \ddp{\hc}{S}\right)^2 u(S;h)^2 = \\
+ &=& u(h)^2 + \left( \frac{\hmax - \hc}{S}\right)^2 u(S;h)^2
+\end{eqnarray*}
+
+The contributions from the load to the uncertainty of the contact depth $\hc$ is 
+  \begin{eqnarray*}
+ u(\hc;F)^2 &=& 
+ \left( \ddp{\hc}{\hmax}\right)^2 u(\hmax;F)^2 + 
+ \left( \ddp{\hc}{\Fmax}\right)^2 u(\Fmax;F)^2 + 
+ \left( \ddp{\hc}{S}\right)^2 u(S;F)^2 + \\
+ &&+
+ 2 \ddp{\hc}{\hmax} \ddp{\hc}{\Fmax} \cov(\hmax, \Fmax;F)+
+ 2 \ddp{\hc}{\hmax} \ddp{\hc}{S} \cov(\hmax, S;F)+ \\
+ &&+
+ 2 \ddp{\hc}{S} \ddp{\hc}{\Fmax} \cov(S, \Fmax;h).
+ \end{eqnarray*}
+Since depth and load are independent $u(\hmax;F)$ and any covariance with $\hmax$ is zero. 
+We assume that the point of maximum force is not included in the fit, thus $\cov(\Fmax,S;h)$ is zero as well.
+\begin{eqnarray*}
+ u(\hc;F)^2 &=& 
+  \left( \ddp{\hc}{\Fmax}\right)^2 u(\Fmax;F)^2 + 
+  \left( \ddp{\hc}{S}\right)^2 u(S;F)^2 = \\
+ &=& \left( \frac{\varepsilon}{S}\right)^2 u(F)^2 + \left( \frac{\hmax - \hc}{S}\right)^2 u(S;F)^2
+\end{eqnarray*}
+
+\subsection{section \ref{tg_unc}, step \ref{tg_unc_H_E}}
+%-
+%------------------------------Er--------------------------------
+The uncertainty of the contact modulus can be written in terms of the already known uncertainties
+\begin{eqnarray*}
+ u(\Er;h)^2 &=& 
+ \left( \ddp{ \Er}{ S}\right)^2 u(S;h)^2 + 
+ \left( \ddp{ \Er}{ \Ap(\hc)} \right)^2 u(\Ap(\hc);h)^2 + \\ 
+  && + 2  \ddp{ \Er}{ S}\ddp{ \Er}{ \Ap(\hc)} \cov(S,\Ap(\hc);h)  
+\end{eqnarray*}
+Inserting the derivatives we have
+\begin{eqnarray*}
+u(\Er;h)^2 &=& 
+ \left( \frac{ \Er}{ S}\right)^2 u(S;h)^2 + 
+ \left( \frac{ \Er}{ 2\Ap(\hc)} \right)^2 u(\Ap(\hc);h)^2 + \\ 
+  && -  \frac{ \Er}{ S}\frac{ \Er}{ \Ap(\hc)} \cov(S,\Ap(\hc);h)   
+\end{eqnarray*}
+
+The covariance is
+\begin{eqnarray*}
+ \cov(S,\Ap(\hc);h) & =& \sum_{i=1}^n \ddp{ S}{ h_i} \ddp{ \Ap}{ h_i} u(h_i)^2 =  \sum_{i=1}^n \ddp{ S}{ h_i} \ddp{ \Ap}{ \hc} \ddp{\hc}{h_i} u(h_i)^2 = \ddp{\Ap}{\hc} \cov(S,\hc;h)
+ \end{eqnarray*}
+ \begin{eqnarray*}
+\cov(S,\hc;h)  &=& \sum_{i=1}^n
+  \ddp{ S }{ h_i}  
+  \left[
+  \ddp{ \hc }{\hmax} \ddp{ \hmax}{ h_i} + 
+  \ddp{ \hc }{\Fmax} \ddp{ \Fmax}{ h_i} + 
+  \ddp{ \hc }{ S} \ddp{ S}{ h_i} 
+  \right]
+  \end{eqnarray*}
+Since the load and the depth are independent, the term with $\Fmax$ are zero and we are left with
+\begin{eqnarray*}
+  \cov(S,\hc;h) &=& \ddp{ \hc }{\hmax} \cov(S,\hmax;h) + \ddp{\hc}{S} u(S;h)^2 
+\end{eqnarray*}
+With the same reasoning as above we can set the terms $\cov(\hmax,S;h)$ to zero. Inserting the derivative
+\begin{eqnarray*}
+  \cov(S,\hc;h) &=& \frac{\varepsilon \Fmax}{S^2} u(S;h)^2 
+\end{eqnarray*}
+
+
+The force contribution to the uncertainty of the contact modulus can be written in terms of the already known uncertainties
+\begin{eqnarray*}
+ u(\Er;F)^2 &=& 
+ \left( \ddp{ \Er}{ S}\right)^2 u(S;F)^2 + 
+ \left( \ddp{ \Er}{ \Ap(\hc)} \right)^2 u(\Ap(\hc);F)^2 + \\ 
+  && + 2  \ddp{ \Er}{ S}\ddp{ \Er}{ \Ap(\hc)} \cov(S,\Ap(\hc);F)  
+\end{eqnarray*}
+Inserting the derivatives we have
+\begin{eqnarray*}
+u(\Er;F)^2 &=& 
+ \left( \frac{ \Er}{ S}\right)^2 u(S;F)^2 + 
+ \left( \frac{ \Er}{ 2\Ap(\hc)} \right)^2 u(\Ap(\hc);F)^2 + \\ 
+  && -  \frac{ \Er}{ S}\frac{ \Er}{ \Ap(\hc)} \cov(S,\Ap(\hc);F)   
+\end{eqnarray*}
+
+The covariance is
+\begin{eqnarray*}
+ \cov(S,\Ap(\hc);F) & =& \sum_{i=1}^n \ddp{ S}{ F_i} \ddp{ \Ap}{ F_i} u(F_i)^2 =  \sum_{i=1}^n \ddp{ S}{ F_i} \ddp{ \Ap}{ \hc} \ddp{\hc}{F_i} u(F_i)^2 =
+ \ddp{\Ap}{\hc} \cov(S,\hc;F)
+ \end{eqnarray*}
+ \begin{eqnarray*}
+\cov(S,\hc;F)  &=& \sum_{i=1}^n
+  \ddp{ S }{ F_i} 
+  \left[
+  \ddp{ \hc }{\hmax} \ddp{ \hmax}{ F_i} + 
+  \ddp{ \hc }{\Fmax} \ddp{ \Fmax}{ F_i} + 
+  \ddp{ \hc }{ S} \ddp{ S}{ F_i} 
+  \right]
+  \end{eqnarray*}
+  Since the load and the depth are independent, the terms with $\hmax$ are zero and we are left with
+  \begin{eqnarray*}
+  \cov(S,\hc;F) &=& \ddp{ \hc }{ \Fmax} \cov(S,\Fmax; F) +
+  \ddp{\hc}{S} u(S;F)^2 
+  \end{eqnarray*}
+With the same reasoning as above we can set the term $\cov(\Fmax,S;F)$ to zero. Inserting the derivative
+ \begin{eqnarray*}
+  \cov(S,\hc;F) 
+    &=& \frac{\varepsilon \Fmax}{S^2} u(S;F)^2 
+   \end{eqnarray*}
+   
+%--------------------------------------------------------------------------
+%                    HERTZ UNC
+%--------------------------------------------------------------------------
+\subsection{section \ref{hertz_unc}, step \ref{hertz_unc_Eit}}
+We need the the contributions of the uncertainties of $\nu$, $\nui$, $\Ei$ and $\Eit$ to $\Er$
+\begin{equation}
+\Er = \left[ \frac{1-\nu^2}{\Eit} + \frac{1-\nui^2}{\Ei} \right]^{-1}
+\end{equation}
+then
+\begin{eqnarray*}
+ \ddp{\Er}{\nu} &=& -\left[ \frac{1-\nu^2}{\Eit} + \frac{1-\nui^2}{\Ei} \right]^{-2} \frac{-2\nu}{\Eit} = \frac{2 \nu \Er^2}{\Eit} \\
+ \ddp{\Er}{\nui} &=& -\left[ \frac{1-\nu^2}{\Eit} + \frac{1-\nui^2}{\Ei} \right]^{-2} \frac{-2\nui}{\Ei} = \frac{2 \nui \Er^2}{\Ei} \\
+ \ddp{\Er}{\Eit} &=& -\left[ \frac{1-\nu^2}{\Eit} + \frac{1-\nui^2}{\Ei} \right]^{-2} \frac{1-\nu^2}{\Eit^2} (-1) = - \frac{\Er^2}{\Eit^2} ( 1-\nu^2) \\
+ \ddp{\Er}{\Ei} &=& -\left[ \frac{1-\nu^2}{\Eit} + \frac{1-\nui^2}{\Ei} \right]^{-2} \frac{1-\nui^2}{\Ei^2} (-1) = - \frac{\Er^2}{\Ei^2} ( 1-\nui^2) \\
+ \end{eqnarray*}
+
+%--------------------------------------------------------------------------
+%                   TWO SLOPES UNC
+%--------------------------------------------------------------------------
+\subsection{section \ref{slopes_unc}, step \ref{slopes_unc_A_H_E}}
+Hardness, contact area and modulus are given in terms of the auxiliary $K$
+\begin{eqnarray}
+ K &=& \frac{2 \Sunload -\beta \varepsilon \Sload}{\Sunload \Sload} = \frac2{\Sload} - \frac{\beta \varepsilon }{\Sunload}
+\end{eqnarray}
+ as
+ \begin{eqnarray}
+ \Ap(\hc) &=& C_0 \Fmax^2 K ^2 \\
+ \Hit &=& \frac1{C_0 \Fmax} \frac1{K^2} \\
+ \Er &=& \frac1{2 \beta \Fmax}  \sqrt{\frac \pi{C_0}} \frac{\Sunload}{K}
+\end{eqnarray}
+
+The uncertainties of $K$ are
+\begin{eqnarray*}
+ u(K;h)^2  &=& \left( \ddp{K}{\Sload} \right)^2 u(\Sload;h)^2 + \left( \ddp{K}{\Sunload} \right)^2 u(\Sunload;h)^2 +  \left( \ddp{K}{\varepsilon} \right)^2 u(\varepsilon;h)^2 \\
+ && + 	\ddp{K}{\Sload}\ddp{K}{\Sunload} \cov(\Sload,\Sunload;h) +   \ddp{K}{\Sload}\ddp{K}{\varepsilon}  \cov(\Sload,\varepsilon;h) +  \ddp{K}{\Sunload}\ddp{K}{\varepsilon} \cov(\Sunload,\varepsilon;h) = \\
+ &=& \left( \frac{-2}{\Sload^2} \right)^2 u(\Sload;h)^2 + \left( \frac{\beta \varepsilon}{\Sunload^2} \right)^2 u(\Sunload;h)^2 +  \left( \frac{\beta}{\Sunload} \right)^2 u(\varepsilon;h)^2 \\ 
+ && + \frac{\beta \varepsilon}{\Sunload^2} \cov(\Sunload, \varepsilon;h) \\
+ %
+u(K;F)^2  &=& \left( \frac{-2}{\Sload^2} \right)^2 u(\Sload;F)^2 + \left( \frac{\beta \varepsilon}{\Sunload^2} \right)^2 u(\Sunload;F)^2 +  \left( \frac{\beta}{\Sunload} \right)^2 u(\varepsilon;F)^2 \\
+&& + \frac{\beta \varepsilon}{\Sunload^2} \cov(\Sunload, \varepsilon;F)
+\end{eqnarray*}
+The covariance between the loading and unloading slope is zero, since they are independent. The covariance of the loading slope and $\varepsilon$ is zero for the same reason. 
+The covariance between $\Sunload$ and $\varepsilon$ can be written in terms of the covariance with $m$.
+\begin{eqnarray*}
+ \cov(\Sunload, \varepsilon;h) &=& \ddp{\varepsilon}m \cov(\Sunload, m;h) \\
+ \cov(\Sunload, \varepsilon;F) &=& \ddp{\varepsilon}m \cov(\Sunload, m;F)
+\end{eqnarray*}
+then
+\begin{eqnarray*}
+\cov(\Sunload, m;h) &=& \sum_{i=1}^n \left( \ddp{\Sunload}{h_i} \ddp{m}{h_i} \right) u({h_i})^2 \\
+&=& \sum_{i=1}^n \left( \ddp{\Sunload}{\Fmax}\ddp{\Fmax}{h_i} +\ddp{\Sunload}{\hmax}\ddp{\hmax}{h_i}+\ddp{\Sunload}{\hp}\ddp{\hp}{h_i} + \ddp{\Sunload}{m}\ddp{m}{h_i} \right)\ddp{m}{h_i} u({h_i})^2 \\
+&=& \ddp{\Sunload}{\hmax} \cov(\hmax, m;h) + \ddp{\Sunload}{\hp} \cov(\hp,m;h) + \ddp{\Sunload}{m} u(m;h)^2 \\
+&=&  \ddp{\Sunload}{\hp} \cov(\hp,m;h) + \ddp{\Sunload}{m} u(m;h)^2 \\
+&=& m\frac{\Fmax}{(\hmax-\hp)^2} \cov(\hp,m;h) + \frac{\Fmax}{\hmax - \hp} u(m;h)^2
+\end{eqnarray*}
+since $\Fmax$ does not depend on $h_i$ and we also assume that $\hmax$ is not part of the fit.
+\begin{eqnarray*}
+\cov(\Sunload, m;F) &=& \sum_{i=1}^n \left( \ddp{\Sunload}{F_i} \ddp{m}{F_i} \right) u({F_i})^2 \\
+&=& \sum_{i=1}^n \left( \ddp{\Sunload}{\Fmax}\ddp{\Fmax}{F_i} +\ddp{\Sunload}{\hmax}\ddp{\hmax}{F_i}+\ddp{\Sunload}{\hp}\ddp{\hp}{F_i} + \ddp{\Sunload}{m}\ddp{m}{F_i} \right)\ddp{m}{F_i} u({F_i})^2 \\
+&=& \sum_{i=1}^n \left( \ddp{\Sunload}{\Fmax}\ddp{\Fmax}{F_i} +\ddp{\Sunload}{\hp}\ddp{\hp}{F_i} + \ddp{\Sunload}{m}\ddp{m}{F_i} \right)\ddp{m}{F_i} u({F_i})^2 \\
+&=& \ddp{\Sunload}{\Fmax}\cov( \Fmax,m;F) +\ddp{\Sunload}{\hp}\cov(\hp,m;F) + \ddp{\Sunload}{m} u(m;F)^2 \\
+&=& \ddp{\Sunload}{\hp}\cov(\hp,m;F) + \ddp{\Sunload}{m} u(m;F)^2 \\
+&=& \frac{m\Fmax}{(\hmax-\hp)^2}\cov(\hp,m;F) + \frac{\Fmax}{\hmax-\hp} u(m;F)^2
+\end{eqnarray*}
+where we assumed again that $\Fmax$ is not part of the fit and therefore independent of $m$.\\
+ The uncertainties of the area are then
+\begin{eqnarray*}
+ u(A;h) &=& C_0 \Fmax^2 2  K u(K;h) \\
+ &=& A \frac{u(K;h)}{K} \\
+ u(A;F)^2 &=& \left(C_0 2 K u(K;h)\right)^2 + \left(C_0 2 \Fmax K^2 u(\Fmax)\right)^2 +C_0 2 \Fmax K^2 C_0 \Fmax^2 2 K \cov(\Fmax, K;F) \\
+  &=& \left(2 A \frac{u(K;h)}{K} \right)^2 + \left(2 A \frac{u(\Fmax)}{\Fmax} \right)^2 
+\end{eqnarray*}
+We assume that the maximum is not included in neither fit, so the covariance with the variables which result from the fit $\Sload$, $\Sunload$, $\varepsilon$ is zero. \\
+The uncertainties of the hardness
+\begin{eqnarray*}
+ u(\Hit;h) &=& \frac1{C_0 \Fmax} \frac{2}{K^3} u(K;h) \\
+  &=& 2 A \frac{u(K;h)}{K} \\
+ u(\Hit;F)^2 &=& \left( \frac1{C_0 \Fmax} \frac{2}{K^3} u(K;F) \right)^2 + \left( \frac1{C_0 \Fmax^2} \frac1{K^2} u(\Fmax)\right)^2 + \\
+  && +\frac{-1}{C_0 \Fmax^2} \frac1{K^2} \frac1{C_0 \Fmax} \frac{-2}{K^3}   \cov(\Fmax,K;F) \\
+  &=& \left( 2 A \frac{u(K;F)}{K} \right)^2 + \left( A\frac{u(\Fmax)}{\Fmax} \right)^2
+\end{eqnarray*}
+Again the covariance is zero. \\
+The uncertainties of the modulus 
+\begin{eqnarray*}
+ u(\Er;h)^2 &=& \left(\frac1{2 \beta \Fmax}  \sqrt{\frac \pi{C_0}} \frac1{K} u(\Sunload;h)  \right)^2  +  \left(\frac1{2 \beta \Fmax}  \sqrt{\frac \pi{C_0}} \frac{-\Sunload}{K^2} u(K;h)  \right)^2 \\
+ &&  + \frac1{2 \beta \Fmax}  \sqrt{\frac \pi{C_0}} \frac1{K}  \frac1{2 \beta \Fmax}  \sqrt{\frac \pi{C_0}} \frac{-\Sunload}{K^2}   \cov(\Sunload, K; h) \\
+  &=& \left( \Er \frac{u(\Sunload;h)}{\Sunload}  \right)^2  +  \left( \Er \frac{u(K;h)}{K}  \right)^2 -\Er^2 \frac{\cov(\Sunload,K;h)}{K\Sunload} \\ 
+ u(\Er;F)^2 &=& \left(\frac1{2 \beta \Fmax}  \sqrt{\frac \pi{C_0}} \frac1{K} u(\Sunload;F)  \right)^2  +  \left(\frac1{2 \beta \Fmax}  \sqrt{\frac \pi{C_0}} \frac{-\Sunload}{K^2} u(K;F)  \right)^2 + \\
+ &&+  \left( \frac{-1}{2 \beta \Fmax^2} \sqrt{\frac \pi{C_0}} \frac{\Sunload}{K} u(F) \right)^2 \\
+&& + \frac{-1}{2 \beta \Fmax^2} \sqrt{\frac \pi{C_0}} \frac{\Sunload}{K} \frac1{2 \beta \Fmax}  \sqrt{\frac \pi{C_0}} \frac1{K}\cov(\Fmax, \Sunload;F) \\
+&& + \frac{-1}{2 \beta \Fmax^2} \sqrt{\frac \pi{C_0}} \frac{\Sunload}{K}\frac1{2 \beta \Fmax}  \sqrt{\frac \pi{C_0}} \frac{-\Sunload}{K^2} \cov(\Fmax, K;F)\\
+&& + \frac1{2 \beta \Fmax}  \sqrt{\frac \pi{C_0}} \frac{-\Sunload}{K^2}\frac1{2 \beta \Fmax}  \sqrt{\frac \pi{C_0}} \frac1{K}\cov(\Sunload,K;F) \\
+%
+&=& \left( \Er \frac{u(\Sunload;F)}{\Sunload}  \right)^2  +  \left( \Er \frac{u(K;F)}{K}  \right)^2 + \left( \Er \frac{u(F)}{\Fmax} \right)^2 \\
+&& - \Er^2 \frac{\cov(\Sunload,K;F)}{K\Sunload}
+\end{eqnarray*}
+By the same argument as above the covariance between $\Fmax$ and $\Sunload$ as well as between $\Fmax$ and $K$ is zero.
+The remaining covariance is
+\begin{eqnarray*}
+ \cov(\Sunload,K;F) &=&  \sum_{i=1}^n \left( \ddp{\Sunload}{F_i} \ddp{K}{F_i} \right) u({F_i})^2 = \\
+&=& \sum_{i=1}^n  \ddp{\Sunload}{F_i} \left( \ddp{K}{\Sload} \ddp{\Sload}{F_i} + \ddp{K}{\Sunload} \ddp{\Sunload}{F_i} + \ddp{K}{\varepsilon} \ddp{\varepsilon}{F_i} \right) u({F_i})^2 \\
+&=& \cov(\Sunload,\Sload;F) \ddp{K}{\Sload} + \ddp{K}{\Sunload} u(\Sunload;F)^2 + \ddp{K}{\varepsilon} \cov(\Sunload, \varepsilon;F) \\
+&=& \frac{\beta \varepsilon}{\Sunload^2} u(\Sunload;F)^2 + \frac{-\beta}{\Sunload} \cov(\Sunload, \varepsilon;F)
+\end{eqnarray*}
+and analoguous for $h$. The covariance between the loading and unloading slopes is zero, since we take them to be independent. The term $\cov(\Sunload, \varepsilon)$ has been calculated above.\\

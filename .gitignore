@@ -1,0 +1,14 @@
+*.o
+*.mod
+*aux
+*log
+*pdf
+*dvi
+*backup
+*.err
+*.rpt
+doc/*aux
+doc/*log
+doc/*pdf
+doc/*dvi
+doc/*backup

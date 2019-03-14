@@ -1,0 +1,100 @@
+% --------------------- Data fitting ----------------------------
+\section{Data fitting}
+We use types of data fitting: the Deming fit for straight lines, the least squares fit of the 3/2 power and orthogonal distance regression \cite{odrpack} for power law functions.
+
+\subsection{Orthogonal distance regression} \label{odrpack_teorie_unc}
+Orthogonal distance regression, also called generalized least squares regression, errors-in-variables models or measurement error models,  attempts to tries to find the best fit taking into account errors in both x- and y- values.
+Assuming the relationship 
+\begin{equation}
+ y^* = f(x^*; \beta)
+\end{equation}
+where $\beta$ are parameters and $x^*$ and $y^*$ are the ``true'' values, without error, this leads to a minimization of the sum
+\begin{equation}
+ \min_{\beta, \delta} \sum_{i=1}^n \left[ \left(y_i - f(x_i+\delta; \beta)\right)^2  + \delta_i^2 \right]
+\end{equation}
+which can be interpreted as the sum of orthogonal distances from the data points $(x_i, y_i)$ to the curve $y = f(x,\beta)$.
+It can be rewritten as 
+\begin{equation}
+\min_{\beta, \delta, \varepsilon} \sum_{i=1}^n \left[ \varepsilon_i^2  + \delta_i^2 \right]
+ \end{equation}
+subject to
+\begin{equation}
+ y_i + \varepsilon_i = f(x_i + \delta_i; \beta).
+\end{equation}
+This can be generalized to accomodate different weights for the datapoints and to higher dimensions
+\begin{equation*}
+ \min_{\beta, \delta, \varepsilon} \sum_{i=1}^n \left[ \varepsilon_i^T w^2_{\varepsilon} \varepsilon_i  + \delta_i^T w^2_{\delta} \delta_i \right],
+\end{equation*}
+where $\varepsilon$ and $\delta$ are $m$ and $n$ dimensional vectors and $w_{\varepsilon}$ and $w_{\delta}$ are symmetric, positive diagonal matrices. 
+Usually the inverse uncertainties of the data points are chosen as weights.
+We use the implementation ODRPACK \cite{odrpack}.
+
+There are different estimates of the covariance matrix of the fitted parameters $\beta$.
+Most of them are based on the linearization method which assumes that the nonlinear function can be adequately approximated at the solution by a linear model. Here, 
+we use an approximation where the covariance matrix associated with the parameter estimates is based $\left(J^T J \right)^{-1}$, where $J$ is the Jacobian matrix of
+the x and y residuals, weighted by the triangular matrix of the Cholesky factorization of the covariance matrix associated with the experimental data.
+ODRPACK uses the following implementation \cite{odrcov}
+\begin{equation}
+ \hat V = \hat \sigma^2 \left[ \sum_{i=1}^n \ddp{f(x_i+\delta_i; \beta)}{\beta ^T} w^2_{\varepsilon_i} \ddp{f(x_i+\delta_i; \beta)}{\beta} +  
+ \ddp{f(x_i+\delta_i; \beta)}{\delta ^T} w^2_{\delta_i} \ddp{f(x_i+\delta_i; \beta)}{\delta}\right]
+\end{equation}
+The residual variance $\hat \sigma^2$ is estimated as
+\begin{equation}
+ \hat \sigma^2 = \frac1{n-p} \sum_{i=1}^n \left[ \left(y_i - f(x_i+\delta; \beta)\right)^T w^2_{\varepsilon_i} \left(y_i - f(x_i+\delta; \beta)\right)  + 
+ \delta_i^T w^2_{\delta_i} \delta_i \right]
+ \end{equation}
+ where $\beta \in \mathbb{R}^p$ and $\delta_i \in \mathbb{R}^m,\ i=1,\dots, n$ are the optimized parameters, 
+
+
+\subsection{Total least squares - Deming fit} \label{tls}
+The Deming fit is a special case of orthogonal regression which can be solved analytically. 
+It seeks the best fit to a linear relationship between the x- and y-values
+\begin{equation}
+ y^* = ax^* +b,
+\end{equation}
+by minimizing the weighted sum of (orthogonal) distances of datapoints from the curve 
+\begin{equation*}
+ S = \sum_{i=1}^n \frac1{\sigma_\epsilon^2} (y_i - a x_i^* -b	)^2 + \frac1{\sigma_\eta^2}(x_i - x_i^*)^2,
+\end{equation*} 
+with respect to the parameters $a$, $b$, and $x_i^*$.
+The weights are the variances of the errors in the x-variable ($\sigma_\eta^2$) and the y-variable ($\sigma_\epsilon^2$). It is not necessary to know the variances themselves, it is sufficient to know their ratio
+\begin{equation}
+ \delta = \frac{\sigma_{\epsilon}^2}{\sigma_\eta^2}.
+\end{equation}
+The solution is
+\begin{eqnarray}
+ a &=& \frac1{2 s_{xy}} \left[ s_{yy}-\delta s_{xx} \pm \sqrt{ ( s_{yy} - \delta s_{xx})^2 + 4 \delta s_{xy}^2} \right] \\
+ b &=& \bar y -a \bar x \\
+ x_i^* &=& \ x_i + \frac{a}{\delta +a^2} \left( y_i -b - a x_i \right),
+ \end{eqnarray}
+where
+\begin{eqnarray}
+ \bar x &=& \frac1n \sum_{i=1}^n x_i \\
+ \bar y &=& \frac1n \sum_{i=1}^n y_i \\
+ s_{xx} &=& \frac1n \sum_{i=1}^n (x_i - \bar x)^2 \\
+ s_{yy} &=& \frac1n \sum_{i=1}^n (y_i - \bar y)^2 \\
+ s_{xy} &=& \frac1n \sum_{i=1}^n (x_i - \bar x)(y_i - \bar y).
+ \end{eqnarray}
+
+\subsection{Least squares - 3/2 power fit}\label{ls:fit32}
+We seek the best fit 
+\begin{equation}
+ y = ax^{3/2}+b,
+\end{equation}
+by minimizing the sum of (vertical) distances of datapoints from the curve 
+\begin{equation*}
+ S = \sum_{i=1}^n (y_i - a x_i^{3/2}-b)^2,
+\end{equation*} 
+with respect to the parameters $a$, $b$.
+The solution is 
+\begin{eqnarray}
+ a &=& \frac{\overline{x^{3/2}y}  - \overline{x^{3/2}} \bar y}{\overline{x^3} - \left( \overline{x^{3/2}} \right)^2} \\
+ b &=& \bar y -a \overline{x^{3/2}}
+\end{eqnarray}
+where
+\begin{eqnarray}
+ \overline{x^{3/2}y} &=& \frac1n\sum_{i=1}^n x_i^{3/2}y_i \\
+ \overline{x^{3/2}} &=& \frac1n\sum_{i=1}^n x_i^{3/2} \\
+ \overline{x^3} &=& \frac1n\sum_{i=1}^n x_i^3 \\
+ \bar y &=& \frac1n \sum_{i=1}^n y_i
+\end{eqnarray}

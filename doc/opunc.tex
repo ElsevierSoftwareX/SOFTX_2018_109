@@ -1,0 +1,137 @@
+%-----------------------   uncertainties for Oliver Pharr method ------
+
+\subsubsection{Uncertainty propagation for Oliver Pharr method} \label{op_unc}
+The formula are often cumbersome, in this section we show only the results. The derivations can be found in the appendix. 
+The formulas for the uncertainties and covariances of variables obtained by fitting, i.e. $\ahp$, $\bhp$, $m$ are complicated and long. 
+Therefore, we don't write them explicitly in terms of the basic uncertainties $u(h)$ and $u(F)$ in further expressions. 
+\begin{enumerate}
+ \item \label{op_unc_hpfit}
+ For the fit \eqref{eq:hp-fit}, find the contributions from depth and load to the uncertainties and covariance of the slope $\ahp$ and intercept $\bhp$: $u(\ahp; h)$, $u(\ahp; F)$, $u(\bhp; h)$,$u(\bhp; F)$, $\cov(\ahp, \bhp; h)$, $\cov(\ahp, \bhp; F)$ see section \ref{tls}
+ \item \label{op_unc_hp} 
+ Find the contributions from the depth and load to the uncertainty of the residual depth given by \eqref{eq:hp}: 
+ \begin{eqnarray*}
+ u(\hp; h)^2  &=&  \left( \frac{\bhp u(\ahp; h)}{\ahp^2} \right)^2 +\left(\frac{u(\bhp; h)}{\ahp} \right)^2 - \frac{2\bhp}{\ahp^3} \cov(\ahp, \bhp; h), %\\
+ %u(\hp; F)^2  &=&  \left( \frac{\bhp u(\ahp; F)}{\ahp^2} \right)^2 +\left(\frac{u(\bhp; F)}{\ahp} \right)^2 - 2  \frac{\bhp}{\ahp^3} \cov(\ahp, \bhp; F) \\
+ %u(\hp)^2 &=& u(\hp; h)^2 + u(\hp; F)^2
+ \end{eqnarray*}
+the contribution from the load is analoguous. The total uncertainty is the square root of the sum of the variances
+\begin{equation}
+ u(\hp) = \sqrt{u(\hp; h)^2 + u(\hp; F)^2}
+ \end{equation}
+
+ \item \label{op_unc_mxy}
+ Use the formulas in section \ref{tls} for the fit \eqref{eq:m-fit}.
+The variables are 
+ \begin{eqnarray*}
+  x &=& \log (h-\hp) \\
+  y &=& \log F
+ \end{eqnarray*}
+so 
+the uncertainties in $x$ and $y$ are not constant this time but
+ \begin{eqnarray*}
+u(x_i)^2 &=& \frac{u(h_i)^2}{(h_i-\hp)^2} + \frac{u(\hp)^2}{(h_i-\hp)^2}  \\
+u(y_i)^2 &=& \frac{u(F_i)^2}{F_i^2}.
+ \end{eqnarray*} 
+  The uncertainty in $x$ receives a contribution both from $h$ and $F$, the $uy$ only from $F$. We omit the contribution $u(\hp;F)$ for simplicity.
+ %\marginpar{overit jak velky je problem kdyz ux ma i prispevek uxF}
+The data $x$ and $y$ are indeed uncorrelated as can be seen from
+\begin{eqnarray*}
+ \cov(x_i, y_j) &=& \sum_{k \in \mathrm{all\ unloading\ curve}} \ddp{x_i}{h_k}\underbrace{ \ddp{y_j}{h_k}}_{=0} u(h_k)^2 + \ddp{x_i}{F_k} \ddp{y_j}{F_k} u(F_k)^2 \\
+  &=& 	u(F)^2  \sum_{k \in \mathrm{all\ unloading\ curve}} -\frac1{h_i-\hp} \ddp{\hp}{F_k} \frac{\delta_{jk}}{F_k} = \\
+  &=& - u(F)^2 \frac{1}{(h_i - \hp) F_j} \ddp{\hp}{F_j}
+\end{eqnarray*}
+But the (linear) fit for obtaining $\hp$ was done over a different interval, so $\hp$ doesn't depend on any data from within the range for the loglog fit.
+ 
+ 
+ 
+ \item \label{op_unc_eps}
+ Calculate the uncertainty of $\varepsilon$ from equation \eqref{eq:eps}.\\
+For $\varepsilon$  we find
+ \begin{eqnarray} \label{eq:ueps}
+  u (\varepsilon ;h) &=& u(m;h) \left[ 
+  \frac{\varepsilon}{m} - \frac{\varepsilon -m}{m -1}  - \frac{\varepsilon - m}{2(m-1)^2} (\psi_0(z)-\psi_0(w)) \right], 
+ \end{eqnarray}
+ with $z = \frac{m}{2(m-1)}$, and $w = \frac1{2(m-1)}$ 
+ and similarly for $u(\varepsilon ; F)$. 
+ The derivative $\mathrm{d} \varepsilon /\mathrm{d} m$ is needed in further calculations
+ \begin{equation} \label{eq:depsdm}
+  \depsdm = \frac{\varepsilon}{m} + \frac{\varepsilon -m}{m -1}  - \frac{\varepsilon - m}{2(m-1)^2} (\psi_0(z)-\psi_0(w)) 
+ \end{equation}
+ 
+ \item \label{op_unc_S_hc}
+ Calculate the uncertainties of $S$ and $\hc$  from equations \eqref{eq:S} and \eqref{eq:hc}.\\
+ For $S$ we get
+\begin{eqnarray}
+ u(S;h)^2 &=& 
+ \left( \frac{S}{m}\right)^2 u(m;h)^2 + 
+ \left( \frac{S}{\hmax-\hp} \right)^2 u(h)^2 + \nonumber \\ 
+  &&+ \left( \frac{S}{\hmax- \hp}\right)^2 u(\hp;h)^2 \\
+    u(S;F)^2 &=& 
+ \left( \frac{S}{m}\right)^2 u(m;F)^2 + 
+ \left( \frac{S}{\Fmax} \right)^2 u(F)^2 + \nonumber \\ 
+    &&+ \left( \frac{S}{\hmax- \hp}\right)^2 u(\hp;F)^2   \nonumber \\
+ \end{eqnarray}
+For $\hc$ we obtain
+  \begin{eqnarray}
+u(\hc;h)^2 &=& 
+   \left( \hmax - \hp \right)^2 \left( \frac{\varepsilon}{m^2} - \frac1m \depsdm \right)^2 u(m;h)^2 + 
+ \left( 1- \frac{\varepsilon}{m}\right)^2 u(\hmax;h)^2 
+ \\  &&  +\left(\frac{\varepsilon }{m} \right)^2 u(\hp;h)^2  \nonumber   \\
+u(\hc;F)^2 &=& 
+   \left( \hmax - \hp \right)^2 \left( \frac{\varepsilon}{m^2} - \frac1m \depsdm \right)^2 u(m;F)^2 + 
+  \left(\frac{\varepsilon }{m} \right)^2 u(\hp;F)^2    
+  \end{eqnarray}
+
+ \item \label{op_unc_A}
+ Calculate the uncertainties of $\Ap(\hc)$, $H_{\mathrm{IT}}$ and $\Er$ from equations \eqref{eq:Aphc} to \eqref{eq:Er}.
+ The uncertainty of $\Ap(\hc)$ for a polynom \eqref{eq:Aphc} is simple
+ \begin{equation}
+  u(\Ap(\hc)) = \ddp{ \Ap(\hc)}{\hc} u(\hc) =  \sum_{k} k c_k \hc^{k-1} u(\hc)
+ \end{equation}
+Uncertainties in the coefficients of the polynom are not taken into account. \\
+
+\item \label{op_unc_H_E}
+ Calculate the uncertainties of $H_{\mathrm{IT}}$ and $\Er$ from equations \eqref{eq:Hit} and \eqref{eq:Er}. 
+The two contributions to the hardness are
+ \begin{eqnarray} 
+u(\Hit;h)&=&    \frac{\Hit}{\Ap(\hc)} \ddp{ \Ap}{\hc} u(\hc;h) \\
+u(\Hit;F)^2 &=& 
+ \left( \frac{\Hit}{ \Fmax}\right)^2 u(F)^2 + 
+ \left( \frac{\Hit}{\Ap(\hc)} \right)^2 \left(\ddp{ \Ap}{\hc}  \right)^2 u(\hc;F)^2 \nonumber \\
+\end{eqnarray}
+The two contributions to the contact modulus are
+\begin{eqnarray}
+ u(\Er;h)^2 &=& 
+ \left( \frac{ \Er}{ S}\right)^2 u(S;h)^2 + 
+ \left( \frac{ \Er}{ 2\Ap(\hc)} \right)^2 u(\Ap(\hc);h)^2 + \nonumber \\ 
+  && -  \frac{ \Er}{ S}\frac{ \Er}{ \Ap(\hc)} \ddp{\Ap}{\hc} \cov(S,\hc;h) \\
+ u(\Er;F)^2 &=& 
+ \left( \frac{ \Er}{ S}\right)^2 u(S;F)^2 + 
+ \left( \frac{ \Er}{ 2\Ap(\hc)} \right)^2 u(\Ap(\hc);F)^2 + \nonumber \\ 
+  && -  \frac{ \Er}{ S}\frac{ \Er}{ \Ap(\hc)} \ddp{\Ap}{\hc} \cov(S,\hc;F)    
+\end{eqnarray}
+where the covariances $\cov(S,\hc;h)$ and $\cov(S,\hc;F)$ are
+\begin{eqnarray}
+  \cov(S,\hc;h) 
+  &=& 
+  -\frac{ S(1-\varepsilon) }{ \hmax-\hp}  u(h)^2 
+  - \frac{S\left( \hmax - \hp\right)}{m}  \depsdm  u(m;h)^2  \nonumber \\
+  &&+
+  \frac{ S \varepsilon}{\hmax- \hp}  u(\hp;h)^2  \\
+\cov(S,\hc;F) 
+  &=&
+   - \frac{ S }{ m} \left(\hmax -\hp\right) \depsdm  u(m;F)^2  +  \frac{ S \varepsilon }{\hmax - \hp} u(\hp,F)^2  \nonumber \\
+   \end{eqnarray}
+   
+  \item \label{op_unc_Eit}
+  Combine the uncertainties originating in depth and load $u(\Er;h)$ and $u(\Er;F)$ with the uncertainties of the material parameters $\nu$, $\nui$ and $\Ei$.
+  The contributions are
+  \begin{eqnarray}
+   u(\Eit;\nu)  &=& \frac{2\nu}{1-\nu^2} \Eit u(\nu) \\ 
+   u(\Eit;\nui) &=& \frac{2\nui}{1-\nu^2} \frac{\Eit^2}{\Ei} u(\nui) \\
+   u(\Eit;\Ei) &=& \frac{(1-\nui^2)}{(1-\nu)^2} \frac{\Eit^2}{\Ei^2} u(\Ei) \\
+   u(\Eit;\Er) &=& \frac{\Eit^2}{\Er^2 (1-\nu^2)} \sqrt{ u(\Er;h)^2 + u(\Er;F)^2}
+  \end{eqnarray}
+
+\end{enumerate}
+

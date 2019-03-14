@@ -1,0 +1,144 @@
+\documentclass[a4paper,11pt,onepage]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{a4wide}
+\usepackage[colorlinks=true]{hyperref}
+\usepackage{mathtools}
+
+\newcommand{\hc}{h_\mathrm{c}}
+\newcommand{\hp}{h_\mathrm{p}}
+\newcommand{\hmax}{h_\mathrm{max}}
+\newcommand{\Fc}{F_\mathrm{c}}
+\newcommand{\Fmax}{F_\mathrm{max}}
+\newcommand{\Ap}{A_\mathrm{p}}
+\newcommand{\Hit}{H_\mathrm{IT}}
+\newcommand{\Eit}{E_\mathrm{IT}}
+\newcommand{\Er}{E_\mathrm{r}}
+\newcommand{\nui}{\nu_\mathrm{i}}
+\newcommand{\Ei}{E_\mathrm{i}}
+\newcommand{\cov}{\mathrm{cov}}
+\newcommand{\ahp}{a_\mathrm{\hp}}
+\newcommand{\bhp}{b_\mathrm{\hp}}
+\newcommand{\ddp}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\depsdm}{\ddp{\varepsilon}{m}}
+\newcommand{\Sload}{S_{\mathrm{load}}} 
+\newcommand{\Sunload}{S_{\mathrm{unload}}}
+\newcommand{\kl}{k_{\mathrm{load}}}
+\newcommand{\ql}{q_{\mathrm{load}}}
+\newcommand{\ku}{k_{\mathrm{unload}}}
+\newcommand{\qu}{q_{\mathrm{unload}}}
+
+\title{\textsc{Niget: NanoIndentation \\ General Evaluation Tool}}
+\author{Anna Charvátová Campbell, Radek Šlesinger, Petr Grolich \\ Czech Metrology Institute}
+
+\begin{document}
+\maketitle
+
+\tableofcontents
+
+\section{About}
+
+Nanoindentation instruments often include data processing software, however, this may not be sufficient. 
+The desired evaluation method may not implemented, the implementations may not be suitable for the given physical problem, 
+the description of the implementation may be insufficient or more information about uncertainties is sought for. \\
+This toolbox aims to fill this gap (at least partly). It is open-source, so the implementation can be checked by the user. It can also be easily expanded to include also other evaluation methods.
+Uncertainties are provided both in the standard framework of uncertainty propagation and also using Monte Carlo simulations.
+
+Visit Niget home page at \url{http://nanometrologie.cz/niget}.
+
+
+%  System requirements, compilation, installation
+\input{install}
+
+\newpage
+
+
+% Main window 
+\input{mainwindow}
+
+%Data and area 
+\input{data_time_area}
+
+%  simple Oliver Pharr  
+\input{op}
+
+% Oliver Pharr ODR
+\input{opodr}
+
+% Tangent method
+\input{tangent}
+
+% simple Hertz method
+\input{hertz}
+
+% Hertz ODR 
+\input{hertzodr}
+
+% Stiffness ODR
+\input{stiffness}
+
+% Two slopes method
+\input{twoslopes}
+
+%  F/h2  
+\input{Fh2}
+
+% pop-in
+\input{popin}
+
+% elastic-plastic work 
+\input{epwork}
+
+% general intro to uncertainties
+\input{uncertainties}
+
+%uncertainties  for simple Oliver Pharr
+%\input{opunc}
+
+% uncertainties for Oliver Pharr ODR
+\input{opodrunc}
+
+%uncertainties for tangent method
+%\input{tangentunc}
+
+%uncertainties for simple Hertz method
+%\input{hertzunc}
+
+%uncertainties for Hertz method ODR
+\input{hertzodrunc}
+
+%uncertainties for stiffness
+\input{stiffnessunc}
+
+%uncertainties for two slopes method
+\input{twoslopesunc}
+
+
+%uncertainties due to contact point
+\input{contactunc}
+%Monte Carlo
+\input{montecarlo}
+
+% NOT DONE YET  
+%\input{areacalibration}
+
+
+%------------- Bibliography -------------------------------
+\addcontentsline{toc}{section}{References}
+\bibliographystyle{unsrt}
+\bibliography{niget}
+
+
+%-------------------------------- Appendix ---------------------
+\appendix
+\input{data_fitting}
+
+
+%should not be included for public use
+% \input{GUMunccalc}
+
+%\input{leastsquares.tex}
+\end{document}

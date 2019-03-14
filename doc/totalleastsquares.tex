@@ -1,0 +1,248 @@
+\documentclass[a4paper,11pt,onepage]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\newcommand{\cov}{\mathrm{cov}}
+
+\newcommand{\ddp}[2]{\frac{\partial #1}{\partial #2}}
+
+\begin{document}
+ 
+
+%---------------------------------------------------------------------------------------------
+%
+%------------------------------- TOTAL LEAST SQUARES --------------------------------------------------
+%
+%---------------------------------------------------------------------------------------------
+\section{Total least squares - long not in documentation} \label{tls}
+The total (orthogonal) least squares regression is an optimization method to fit the data $(x_i, y_i)$ with a function $f(x_i;\beta_a)$, $\beta_a$ being the (unknown) parameters.
+It is based on the minimization of the sum of (orthogonal) distances of datapoints from the curve 
+\begin{equation*}
+ S = \sum_{i=1}^n w_i \left[(y_i - f(x_i^*; \beta_a))^2 + \delta_i (x_i - x_i^*)^2 \right],
+\end{equation*} 
+where $\delta = \sigma_{y}/\sigma_{x}$ is the ratio of the error variances in $x$ and $y$, $w_i$ are weights of the points and the values $x_i^*$ are parameters corresponding to the ``true'' x-values of the points on the curve. \\
+
+\subsection{total least squares: straight line}
+In general this leads to a set of nonlinear equations which must be solved numerically. For a straight line with equal weights $w_i=1$  and uniform error estimates $\delta_i = \delta$
+
+\begin{equation}
+ y = f(x) = ax +b,
+\end{equation}
+the problem can be solved analytically. The derivatives of $S$ with respect to the parameters $a$, $b$ and $x_i^*$ are
+\begin{eqnarray*}
+ \ddp{S}{a} &=& \sum_{i=1}^n 2(y_i - ax_i^* -b) (-x_i^*) \\
+ \ddp{S}{b} &=& \sum_{i=1}^n 2 (y_i - ax_i^* -b) (-1) \\
+ \ddp{S}{x_i^*} &=& 2 (y_i -ax_i^* -b) (-a) + 2 \delta(x_i - x_i^*) (-1),
+\end{eqnarray*}
+they must be all set to zero (to find the minimum). Thus we start with the system of equations
+\begin{eqnarray}
+ \sum_{i=1}^n y_i x_i^* - a \sum_{i=1}^n \left(x_i^*\right)^2 -b\sum_{i=1}^n x_i^* &=&  0\label{eq:tls_dS_1}\\
+ \sum_{i=1}^n y_i - a \sum_{i=1}^n x_i^* -bn &=& 0 \label{eq:tls_dS_2} \\
+ a(y_i -ax_i^* -b)  + \delta(x_i - x_i^*) &=& 0. \label{eq:tls_dS_3}
+\end{eqnarray}
+Express $x_i^*$ from \eqref{eq:tls_dS_3} as
+\begin{equation}
+ x_i^* = \frac1{\delta +a^2} \left( \delta x_i + a y_i - ab\right) = x_i + \frac{a}{\delta+a^2} \left( y_i -b - a x_i \right)
+\end{equation}
+and calculate the sums $\sum_i x_i^*$, $\sum_i \left(x_i^*\right)^2$ and $\sum_{i=1}^n x_i^* y_i$
+\begin{eqnarray}
+ \sum_{i=1}^n x_i^* &=& \sum_{i=1}^n  x_i + \frac{a}{\delta+a^2} \left( y_i - ax_i - b\right) \nonumber \\
+ &=& n \bar x + \frac{na}{\delta+a^2} \left(  \bar y - a  \bar x - b\right) \label{eq:tls_sum_xstar}
+\end{eqnarray}
+\begin{eqnarray}
+ \sum_{i=1}^n \left( x_i^*\right)^2 &=& \sum_{i=1}^n x_i^2 + \frac{2a}{\delta+a^2} \left( x_i y_i -a x_i^2 -b x_i \right) + \frac{a^2}{(\delta+a^2)^2} \left( y_i - a x_i -b \right)^2 \nonumber\\
+ &=& \sum_{i=1}^n x_i^2 + \frac{2a}{\delta+a^2} \sum_{i=1}^n x_i y_i - \frac{2a^2 }{\delta+a^2} \sum_{i=1}^n x_i^2 - \frac{2ab}{\delta+a^2} n\bar x + \nonumber\\
+ &&+ \frac{a^2}{(\delta+a^2)^2} \sum_{i=1}^n y_i^2 + \frac{a^4}{(\delta+a^2)^2} \sum_{i=1}^n x_i^2 + \frac{a^2}{(\delta+a^2)^2} b^2 n + \nonumber\\
+ &&- \frac{2a^3}{(\delta+a^2)^2} \sum_{i=1}^n y_i x_i - \frac{2a^2b}{(\delta+a^2)^2} n \bar y + \frac{2a^3b}{(\delta+a^2)^2} n \bar x \nonumber \\
+ &=& \frac{a^2}{(\delta+a^2)^2} \sum_{i=1}^n y_i^2 +
+ \frac{2a \delta}{(\delta+a^2)^2} \sum_{i=1}^n x_i y_i   + 
+ \sum_{i=1}^n x_i^2 \left[ 1 - \frac{2a^2 }{\delta+a^2}  + \frac{a^4}{(\delta+a^2)^2} \right] + \nonumber\\
+&& - \frac{2a^2b}{(\delta+a^2)^2} n \bar y  - \frac{2ab\delta}{(\delta+a^2)^2} n \bar x + \frac{a^2}{(\delta+a^2)^2} b^2 n = \nonumber\\
+&=& \frac1{(\delta+a^2)^2} \left[ a^2 \sum_{i=1}^n y_i^2 + 2a \delta \sum_{i=1}^n x_i y_i + \delta^2\sum_{i=1}^n x_i^2
+-2 a^2b n \bar y  - 2 ab \delta n \bar x + a^2 b^2 n \right] \nonumber \\
+&=& \frac{n}{(\delta+a^2)^2} \left[ a^2 \overline{ y^2}  + 2a \delta \overline{xy} + \delta^2 \overline{x^2} 
+-2 a^2b  \bar y  - 2 ab \delta \bar x + a^2 b^2  \right] \label{eq:tls_sum_xstar^2}
+\end{eqnarray}
+\begin{eqnarray*}
+ \sum_{i=1}^n x_i^* y_i &=& 
+ \sum_{i=1}^n  y_i  x_i + \frac{a}{\delta+a^2}\sum_{i=1}^n \left(y_i^2\right)^2 - \frac{ab}{\delta+a^2}\sum_{i=1}^n y_i - \frac{a^2}{\delta+a^2} \sum_{i=1}^n x_i y_i \\
+ &=& n \frac1{\delta+a^2} \left [\delta \overline{xy} + a \overline{y^2} - ab\bar y \right]
+\end{eqnarray*}
+
+Divide equation \eqref{eq:tls_dS_2} by $n$ and insert to find
+\begin{eqnarray}
+ 0 &=& \bar y - a \left[  \bar x + \frac{a}{\delta+a^2} \left(  \bar y - a  \bar x - b\right) \right] -b \nonumber \\
+  0 &=& \frac{\delta}{\delta+a^2} \bar y - \frac{a \delta}{\delta+a^2} \bar x - b \frac{\delta}{\delta+a^2} \nonumber\\
+  0 &=& \bar y - a \bar x -b \label{eq:tls_xbarybar}
+\end{eqnarray}
+
+Divide equation \eqref{eq:tls_dS_1} by $n$ and insert the sums
+\begin{eqnarray*}
+ 0 &=&
+  \frac1{\delta+a^2} \left [ \delta \overline{xy} + a \overline{y^2} - ab\bar y \right] \\
+&&  - \frac{a}{(\delta+a^2)^2} \left[ a^2 \overline{ y^2}  + 2a\delta \overline{xy} + \delta^2\overline{x^2}  
+-2 a^2b  \bar y  - 2 ab \delta \bar x + a^2 b^2  \right] \\
+&&- b \left[  \bar x + \frac{a}{\delta+a^2} \left(  \bar y - a  \bar x - b\right) \right] \\	
+&=& \frac1{(\delta+a^2)^2} \left[ \delta a \overline{y^2} + (\delta^2 - \delta a^2 )\overline{xy} -a \delta^2 \overline{x^2} -(\delta-a^2)ab \bar y - (\delta^2+a^4 )  b \bar x -a^3 b^2
+\right]
+\end{eqnarray*}
+where we used also \eqref{eq:tls_xbarybar}. Expressing $b$ from \eqref{eq:tls_xbarybar} as $ b = \bar y - a \bar x$ and multiplying the whole equation with $(\delta+a^2)^2$ we get
+\begin{eqnarray*}
+ 0 &=& \delta a \overline{y^2} + \delta(\delta -a^2 )\overline{xy} -a \delta^2 \overline{x^2} -(\delta-a^2)a \bar y ( \bar y - a \bar x) - (\delta^2+ a^4)  \bar x ( \bar y - a \bar x) -a^3 (\bar y - a \bar x)^2\\
+ %
+ &=& \delta a \overline{y^2} + \delta (\delta -a^2 )\overline{xy} -a \delta^2 \overline{x^2} -(\delta-a^2)a \left(\bar y\right)^2  +(\delta-a^2) a^2 \bar x\bar y - (\delta+ a^4)  \bar x \bar y \\
+ &&+ (\delta^2+ a^4)a \left(\bar x\right)^2 -a^3 (\bar y)^2 +2 a^4 \bar x \bar y - a^5 \left( \bar x \right)^2 \\
+ %
+ &=& \delta a \overline{y^2} - \delta a \left(\bar y\right)^2+ \delta (\delta -a^2 )\overline{xy} - \delta \left[ \delta - a^2\right] \bar x\bar y -a \delta^2 \overline{x^2} +a \delta^2\left( \bar x \right)^2 \\
+ &=& \delta a s_{yy} + \delta (\delta-a^2) s_{xy} -a \delta^2s_{xx}
+\end{eqnarray*}
+where
+\begin{eqnarray*}
+ s_{xx} &=& \overline{x^2} - \left(\bar x \right)^2 = \frac1n \sum_{i=1}^n \left( x_i - \bar x \right)^2 \\%= \frac1n \sum_{i=1}^n \left( x_i^2 -2x_i \bar x + (\bar x)^2 \right)\\
+ s_{xy} &=& \overline{xy} - \bar x \bar y  = \frac1n \sum_{i=1}^n \left( x_i - \bar x \right) \left( y_i - \bar y \right) \\
+ s_{yy} &=& \overline{y^2} - \left(\bar y \right)^2 = \frac1n \sum_{i=1}^n \left( y_i - \bar y \right)^2.
+ \end{eqnarray*}
+For $\delta \neq 0$ this is a quadratic equation in $a$ with the solution
+\begin{equation}
+ a = \frac1{2 s_{xy}} \left[ s_{yy}- \delta s_{xx} \pm \sqrt{ ( s_{yy} - \delta s_{xx})^2 + 4 \delta s_{xy}^2} \right]
+\end{equation}
+We choose the upper sign in order to get the correct limit for $\delta \rightarrow 0$ which corresponds to ordinary least squares.
+The final solution is thus
+\begin{eqnarray}
+ a &=& \frac1{2 s_{xy}} \left[ s_{yy}- \delta s_{xx} + \sqrt{ ( s_{yy} - \delta s_{xx})^2 + 4 \delta s_{xy}^2} \right] \\
+ b &=& \bar y -a \bar x \\
+ x_i^* &=& \frac1{\delta+a^2} \left( x_i + a y_i - ab\right) = x_i + \frac{a}{\delta+a^2} \left( y_i -b - a x_i \right)
+ \end{eqnarray}
+ 
+\subsection{total least squares, uncertainties a la GUM}
+Uncertainties can be calculated by two ways: either using the law of propagation or as the inverse of the Hessian matrix (partial derivatives of the sum of squares with respect to the parameters).
+By calculating explicitly all derivatives
+\begin{eqnarray}
+ u(a)^2 &=& \underbrace{\sum_{i=1}^n \left(\ddp{a}{x_i}\right)^2 u(x_i)^2}_{u(a;x)^2} + \underbrace{\sum_{i=1}^n \left(\ddp{a}{y_i}\right)^2 u(y_i)^2}_{u(a;y)^2} \\
+ u(b)^2 &=& \underbrace{\sum_{i=1}^n \left(\ddp{b}{x_i}\right)^2 u(x_i)^2}_{u(b;x)^2} + \underbrace{\sum_{i=1}^n \left(\ddp{b}{y_i}\right)^2 u(y_i)^2}_{u(b;y)^2} \\
+ \cov(a,b) &=& \underbrace{ \sum_{i=1}^n \ddp{a}{x_i} \ddp{b}{x_i} u(x_i)^2 }_{\cov(a,b;x)} + \underbrace{\sum_{i=1}^n \ddp{a}{y_i} \ddp{b}{y_i} u(y_i)^2}_{\cov(a,b;y)}
+ \end{eqnarray}
+We start with the uncertainty of the slope. Use the chain rule to write the derivatives in terms of the $s_{xx}$ etc. 
+\begin{eqnarray*}
+ \ddp{a}{x_i} &=& \ddp{a}{s_{xx}} \ddp{s_{xx}}{x_i} + \ddp{a}{s_{xy}} \ddp{s_{xy}}{x_i} \\
+ \ddp{a}{y_i} &=& \ddp{a}{s_{yy}} \ddp{s_{yy}}{y_i} + \ddp{a}{s_{xy}} \ddp{s_{xy}}{y_i} 
+ \end{eqnarray*}
+First note that 
+\begin{eqnarray*}
+ \ddp{\bar x}{x_i} &=& \ddp{}{x_i} \frac1n \sum_{k=1}^n x_k = \frac1n \sum_{k=1}^n \delta_{ik} = \frac1n,
+\end{eqnarray*}
+and analoguously for $y$.
+The derivatives of the $s_{xx}$ and $s_{xy}$ with respect to $x$ are simply
+\begin{eqnarray*}
+ \ddp{s_{xx}}{x_i} &=& \ddp{}{x_i} \sum_{j=1}^n \frac1n \left(x_j - \bar x \right)^2 \\
+ &=& \frac2n \sum_{j=1} \left( x_j - \bar x \right) \left( \delta_{ij} - \frac1n \right) \\
+ &=& \frac2n \sum_{j=1} \left( x_j - \bar x \right)\delta_{ij}  - \frac{2}{n^2} \underbrace{\sum_{j=1} \left( x_j -\bar x \right) }_{=0} \\
+ &=& \frac2n  \left( x_i - \bar x \right)
+\end{eqnarray*}
+and 
+\begin{eqnarray*}
+ \ddp{s_{xy}}{x_i} &=& \ddp{}{x_i} \sum_{j=1}^n \frac1n \left(x_j - \bar x \right) \left( y_j - \bar y \right) \\
+&=& \frac1n \sum_{j=1}^n \left( \delta_{ij} - \frac1n \right) \left(y_j - \bar y \right) \\
+&=& \frac1n \sum_{j=1}^n \delta_{ij} \left(y_j - \bar y \right) - \frac1{n^2} \sum_{j=1}^n \left(y_j - \bar y \right)	\\
+&=& \frac1n \left(y_i - \bar y \right)
+\end{eqnarray*}
+The other derivatives are analoguous.\\
+The derivatives of the slope with respect to the $s_{xx}$ etc. are 
+\begin{eqnarray*}
+ \ddp{a}{s_{xx}} &= & \frac1{2s_{xy}} \left[ - \delta +  \frac12 \frac1{\sqrt{( s_{yy} - \delta s_{xx})^2 + 4 \delta s_{xy}^2}} 2 (s_{yy}-\delta s_{xx}) (-\delta)\right] \\
+     &=& -\frac\delta{2s_{xy}} \left[ 1 + \frac{s_{yy}- \delta s_{xx}}{\sqrt{( s_{yy} -\delta s_{xx})^2 + 4 \delta s_{xy}^2}} \right] \\
+     %
+ \ddp{a}{s_{yy}} &=& \frac1{2s_{xy}} \left[ 1 + \frac{s_{yy}- \delta s_{xx}}{\sqrt{( s_{yy} - \delta s_{xx})^2 + 4 \delta s_{xy}^2}} \right] \\
+ %
+ \ddp{a}{s_{xy}} &=& -\frac1{2s_{xy}^2} \left[ s_{yy}- \delta s_{xx} + \sqrt{ ( s_{yy} - \delta s_{xx})^2 + 4 \delta s_{xy}^2} \right] + \\
+ && + \frac1{2s_{xy}} \frac12 \frac1{\sqrt{ ( s_{yy} - \delta s_{xx})^2 + 4 \delta s_{xy}^2}} 8 \delta s_{xy} \\
+ %
+ &=&-\frac1{2s_{xy}^2} \left[ s_{yy}- \delta s_{xx} \right] + \\
+ &&-\frac1{2s_{xy}^2} \frac1{\sqrt{ ( s_{yy} - \delta s_{xx})^2 + 4 \delta s_{xy}^2}} \left[ ( s_{yy} - \delta s_{xx})^2 + 4 \delta s_{xy}^2 - 4 \delta s_{xy}^2 \right] \\
+ %
+ &=& -\frac1{2s_{xy}^2} \left[ s_{yy}- \delta s_{xx} \right] -\frac1{2s_{xy}^2} \frac{ ( s_{yy} - \delta s_{xx})^2}{\sqrt{ ( s_{yy} - \delta s_{xx})^2 + 4 \delta s_{xy}^2}} 
+\end{eqnarray*}
+The derivatives of intercept  are
+\begin{eqnarray*}
+ \ddp{b}{x_i} &=& - \ddp{a}{x_i} \bar x - a \frac1n \\
+ \ddp{b}{y_i} &=& \frac1n - \ddp{a}{y_i} \bar x
+\end{eqnarray*}
+
+If the variances are the same for all $x_i$ and $y_i$ we can simplify the previous expressoins
+\begin{eqnarray*}
+ u(a;x)^2 &=& \sum_{i=1}^n \left(\ddp{a}{x_i}\right)^2 u(x_i)^2 \\
+ &=& \sum_{i=1}^n \left( \ddp{a}{s_{xx}} \ddp{s_{xx}}{x_i} + \ddp{a}{s_{xy}} \ddp{s_{xy}}{x_i}\right)^2 u(x)^2 \\
+ &=& u(x)^2 \sum_{i=1}^n \left[ \left( \ddp{a}{s_{xx}}  \frac2{n} (x_i - \bar x) \right)^2  + \right. 
+      2\ddp{a}{s_{xx}} \ddp{a}{s_{xy}} \frac2n (x_i - \bar x ) \frac1n (y_i - \bar y) \\
+        && \left.+ \left( \ddp{a}{s_{xy}} \frac1n (y_i - \bar y) \right)^2 
+       \right] \\
+ &=& u(x) ^2 \left[ \left( \ddp{a}{s_{xx}} \right)^2 \frac4{n} s_{xx} +  \ddp{a}{s_{xx}} \ddp{a}{s_{xy}} \frac4n s_{xy} 
+ + \left( \ddp{a}{s_{xy}} \right)^2 \frac1n s_{yy} \right]       
+\end{eqnarray*}
+and a similar term for $u(a;y)$.
+For $b$ we find
+\begin{eqnarray*}
+ u(b;x)^2 &=& \sum_{i=1}^n \left(\ddp{b}{x_i}\right)^2 u(x_i)^2 \\
+ &=& \sum_{i=1}^n \left( - \ddp{a}{x_i} \bar x - a \frac1n \right)^2 u(x_i)^2 \\
+ &=& \left(\bar x\right)^2 u(a;x)^2 + a^2 \frac1n u(x)^2 + 2 u(x)^2 \sum_{i=1}^n \ddp{a}{x_i} \bar x a \frac1n \\
+ &=& \left(\bar x\right)^2 u(a;x)^2 + a^2 \frac1n u(x)^2 + 2 u(x)^2 \frac{\bar x a}n \sum_{i=1}^n \left(  \ddp{a}{s_{xx}}  \frac2{n} (x_i - \bar x) + \ddp{a}{s_{xy}} \frac1n (y_i - \bar y)\right) \\
+ &=& \left(\bar x\right)^2 u(a;x)^2 + \frac{a^2}n u(x)^2 \\
+ u(b;y)^2 &=& \sum_{i=1}^n \left(\ddp{b}{y_i}\right)^2 u(y_i)^2 \\
+ &=& \sum_{i=1}^n \left(\frac1n - \ddp{a}{y_i} \bar x\right)^2 u(y_i)^2 \\
+ &=& u(y)^2 \frac1n + \left(\bar x \right)^2 u(a;y)^2 - 2 \frac1n u(y)^2 \sum_{i=1}^n \left(  \ddp{a}{s_{yy}}  \frac2{n} (y_i - \bar y) + \ddp{a}{s_{xy}} \frac1n (x_i - \bar x)\right) \\ 
+ &=& u(y)^2 \frac1n + \left(\bar x \right)^2 u(a;y)^2
+\end{eqnarray*}
+For the covariance we have
+\begin{eqnarray*}
+ \cov(a,b;x) &=& \sum_{i=1}^n \ddp{a}{x_i} \ddp{b}{x_i} u(x_i)^2 \\
+  &=&  \sum_{i=1}^n \ddp{a}{x_i}\left( - \ddp{a}{x_i} \bar x - a \frac1n \right) u(x_i)^2 \\
+  &=& - u(a;x)^2 \bar x \\
+ \cov(a,b;y) &=& \sum_{i=1}^n \ddp{a}{y_i} \ddp{b}{y_i} u(y_i)^2 \\
+  &=&  \sum_{i=1}^n \ddp{a}{y_i}\left( \frac1n - \ddp{a}{y_i} \bar x \right) u(y_i)^2 \\
+  &=& -u(a;y)^2\bar x
+\end{eqnarray*}
+
+\subsection{total least squares - Hessian}
+The covariance matrix can be written as the inverse of the Hessian matrix
+\begin{equation}
+ U_{ij} = \frac12 \ddp{^2W}{\beta_i \beta_j}^{-1}
+\end{equation}
+where $W$ is the cost function 
+\begin{equation*}
+ W= \sum_{i=1}^n \frac1{u_y^2} (y_i - a x_i^* - b)^2 + \frac1{u_x^2} (x_i - x_i^*)^2   = \frac1{u_y^2} \underbrace{\sum_{i=1}^n (y_i - a x_i^* - b)^2 + \delta (x_i - x_i^*)^2}_{=S},
+\end{equation*} 
+and $\beta_i$ are the parameters $a$, $b$ and $x_i^*$.
+The second derivatives of the sum of squares $S$ are (using equations \eqref{eq:tls_sum_xstar}, \eqref{eq:tls_sum_xstar^2}, \eqref{eq:tls_xbarybar}
+\begin{eqnarray*}
+ \frac12 \ddp{^2S}{a^2} &=& \sum_{i=1}^n  (x_i^* )^2 =
+ \frac{n}{(\delta+a^2)^2} \left[ a^2 \overline{ y^2}  + 2a \overline{xy} + \overline{x^2} 
+-2 a^2b  \bar y  - 2 ab  \bar x + a^2 b^2  \right] \\
+&=& \frac{n}{(\delta+a^2)^2} \left[ a^2 \overline{ y^2}  + 2a \overline{xy} + \overline{x^2}
+- 2a^2 (\bar y - a \bar x)  \bar y - 2a  \bar x (\bar y- a \bar x ) + a^2  ( \bar y - a \bar x )^2 \right] \\
+&=& \frac{n}{(\delta+a^2)^2} \left[ a^2 \overline{ y^2}  +  2a \overline{xy} + \overline{x^2}  \right. 
+- 2a^2 (\bar y)^2  +  2a^3 \bar x \bar y
+- 2a  \bar x \bar y+  2a^2  (\bar x )^2
+\\
+&& \left.
++ a^2  ( \bar y - a \bar x )^2 \right] \\
+&=& \frac{n}{(\delta+a^2)^2} \left[ a^2 \overline{ y^2}  + 2a \overline{xy} + \overline{x^2}  \right. 
+- 2a^2 (\bar y)^2  +  2a^3 \bar x \bar y
+- 2a  \bar x \bar y+  2a^2  (\bar x )^2 \\
+&& \left. +a^2  (\bar y)^2 - 2a^3 \bar x \bar y + a^4  (\bar x)^2 \right]\\
+&=& \frac{n}{(\delta+a^2)^2} \left[ 
+a^2 (\overline{ y^2} - (\bar y)^2)  + 2a ( \overline{xy} -  \bar x \bar y) + \overline{x^2} + 2 a^2  (\bar x)^2 + a^4  (\bar x)^2
+\right]\\
+&=& \frac{n}{(\delta+a^2)^2} \left[ a^2 s_{yy}  + 2a  s_{xy} + s_{xx} + (\bar x)^2 (\delta+a^2)^2\right]
+\end{eqnarray*}
+\begin{eqnarray*}
+ \frac12 \ddp{^2S}{a \partial b} &=& \sum_{i=1}^n  x_i^* = n \bar x  \\
+ \frac12 \ddp{^2 S} {b^2} &=& \sum_{i=1}^n 1 = n  \\
+  \end{eqnarray*}
+\begin{eqnarray*}
+ \frac12 \ddp{^2S}{a \partial x_i^*} &=& -(y_i - 2a x_i^* -b) \\
+ \frac12 \ddp{^2S}{b \partial x_i^*} &=&  a \\
+ \frac12 \ddp{^2S}{x_i^* \partial x_j^*} &=& (\delta+a^2) \delta_{ij}           
+ \end{eqnarray*}
+
+\end{document}

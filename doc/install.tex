@@ -1,0 +1,75 @@
+%------------------ System requirements, installation ----------------------
+\section{System requirements, compiling, and installation}
+
+Niget sources as well as binaries for 32-bit Windows systems can be downloaded from its home page at \url{http://nanometrologie.cz/niget}.
+The software is written mainly in C language using GTK+ (version 2) toolkit (\url{http://www.gtk.org}) and libraries from Gwyddion data analysis software (\url{http://gwyddion.net}). 
+Some tools (Oliver-Pharr ODR, Hertz ODR, Two slopes, and Stiffness) use orthogonal distance regression (ODR) which includes Fortran code from ODRPACK95 project, available at \url{http://www.netlib.org/toms/869.zip}.
+
+\subsection{Linux}
+
+There are no distribution packages available, and users are supposed to compile Niget from source.
+
+\paragraph{Requirements}
+
+\begin{enumerate}
+\item C compiler (preferably GNU gcc or Intel icc)
+\item (optional) Fortran compiler (preferably GNU gfortran or Intel ifort)
+\item CMake
+\item GNU Make or compatible
+\item pkg-config
+\item GTK2 (and its dependences), including development libraries
+\item (preferable) Gwyddion development libraries (see \url{http://gwyddion.net/download.php} for distribution-specific instructions; FFTW3 and GtkGLExt development libraries may be also required as dependences)
+\end{enumerate}
+
+If paths to Gwyddion libraries and includes are not found by CMake or provided by user, a recent version of Gwyddion is automatically downloaded and built. Please that this does not include any additional tools or libraries which might be required by Gwyddion; these must be installed manually according to the installation instructions of Gwyddion.
+
+\paragraph{Compiling with CMake}
+
+In the Niget source directory, proceed as follows:
+
+\begin{enumerate}
+\item \texttt{mkdir build} (out-of-tree builds are preferred with CMake)
+\item \texttt{cd build}
+\item \texttt{cmake ..} (CMake looks for compilers and libraries, and configures the build)
+\item \texttt{make}
+\end{enumerate}
+
+This compiles Niget using default configuration. If CMake finds a suitable Fortran compiler, ODRPACK95 will be compiled and ODR-based tools enabled. Optional configuration parameters can be set by adding \texttt{-D OPTION=VALUE} to the \texttt{cmake} command (\texttt{cmake -D OPTION1=VALUE1 \dots\ -D OPTIONn=VALUEn ..}). Presently available options are:
+
+\begin{enumerate}
+\item \texttt{DEBUG} -- \texttt{ON} (default) / \texttt{OFF}: make debug build
+\item \texttt{VERBOSE} -- \texttt{ON} / \texttt{OFF} (default): increase verbosity of some tools for debugging purposes
+\end{enumerate}
+
+Specific compilers can be provided using \texttt{CC} and \texttt{FC} environment variables, e.g. \texttt{CC=icc FC=ifort cmake ..} to use Intel compilers. After running CMake, the options above are stored into CMake's cache in the build directory, and need not be specified with further CMake runs (or have to be specified explicitly if a change is desired). Note: until the code is sufficiently tested, \texttt{DEBUG} is \texttt{ON} by default, and release build must be triggered manually.
+
+After the software compiles successfully, the \texttt{niget} binary, created in the build directory, can be run.
+
+
+\subsection{Windows}
+
+Niget Windows 32-bit binaries are distributed in a single zip-file, which contains all the required libraries.
+% (If the software does not run, you might need to install the Visual C++ Redistributable for Visual Studio 2015, available at \url{https://www.microsoft.com/en-us/download/details.aspx?id=48145}.)
+This is the preferred way for Windows users to start using Niget.
+
+% \subsubsection{Microsoft Visual Studio}
+
+% Niget can be compiled natively on Windows platforms. A solution for Microsoft Visual Studio 2015 is provided in \texttt{msvc2015/indent-toolbox.sln}. 
+% Since this Visual Studio version does not provide a Fortran compiler, the ODR dependent tools are excluded into a separate project, which can be compiled as a dynamic link library using Intel Fortran compiler. Anyway, due to GTK2 and Gwyddion development libraries being needed for compilation, we discourage the users from compiling from source on Windows.
+
+% \paragraph{Requirements}
+
+% \begin{enumerate}
+% \item Microsoft Visual Studio 2015
+% \item (Optional) Intel Fortran compiler
+% \item GTK2 Windows bundle (\url{http://gtk-win.sourceforge.net/home})
+% \item Gwyddion development libraries; see \url{http://gwyddion.net/documentation/user-guide-en/installation-compiling-msvc.html} for instructions on compiling Gwyddion on Windows
+% \end{enumerate}
+
+\subsubsection{MinGW suite}
+
+Compiling using CMake and MinGW suite in MSYS2 environment has been tested and is currently used to provide the Windows builds of Niget. Unfortunately, no straightforward procedure is available at the moment.
+
+% -G "Unix Makefiles"
+% -DGTK2_GDKCONFIG_INCLUDE_DIR=/mingw32/lib/gtk-2.0/include -DGTK2_GLIBCONFIG_INCLUDE_DIR=/mingw32/lib/glib-2.0/include - zahrnuto v cmakelists, ale musely se pridat zacatky cest
+

@@ -1,0 +1,5 @@
+#SETTINGS FILE FOR NIGET-CMD, HERTZ METHOD
+0 #R -mode: 0 , Er-mode: 1, EIT-mode:2
+150e-9 #radius in m or Er or EIT  in GPa
+10 80 #load range from to   
+0.4 0.07 1141e9 # for EITmode only: nu, nui, Ei

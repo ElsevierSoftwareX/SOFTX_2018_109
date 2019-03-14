@@ -1,0 +1,41 @@
+%------------------- uncertainties for Hertz method using ODR ---------------------------------
+ 
+\subsubsection{Uncertainty propagation for Hertz method with ODR}\label{hertz_odr_unc}
+\begin{enumerate}
+ \item 
+ Calculate the uncertainty of the proportionality factor $\gamma$ in \eqref{eq:hertzodrfit}, see section \ref{odrpack_teorie_unc}
+ %\item
+ %Steps 2--5 are the same as in section \ref{hertz_unc}.
+  \item
+If the tip radius was given, the contributions to the uncertainty of the contact modulus are
+\begin{eqnarray*}
+ u(\Er;h) &=&  \frac{\Er}{\gamma} u(\gamma;h)  \\
+ u(\Er;F) &=&  \frac{\Er}{\gamma} u(\gamma;F)  \\ 
+ u(\Er;R) &=&  \frac{\Er}{2 R} u(R) 
+ \end{eqnarray*}
+ 
+\item Calculate the uncertainty of $\Eit$ as in step \ref{opodr_unc_Eit} in \ref{opodr_unc}.
+
+\item If the contact modulus was given the contributions to the uncertainty of the radius are
+\begin{eqnarray*}
+ u(R;h) &=&  2 \frac{R}{\gamma} u(\gamma;h) \\
+ u(R;F) &=&  2 \frac{R}{\gamma} u(\gamma;F) \\ 
+ u(R;\Er) &=& 2\frac{R}{\Er} u(\Er) 
+ \end{eqnarray*}
+ 
+\item \label{hertz_odr_unc_Eit}
+If the indentation modulus was given the uncertainties can be expressed in terms of the contact modulus
+$$
+\Er = \left[ \frac{1-\nu^2}{\Eit} + \frac{1-\nui^2}{\Ei} \right]^{-1}
+$$
+as
+\begin{eqnarray*}
+ u(R;h) &=&  2 \frac{R}{\gamma} u(\gamma;h) \\
+ u(R;F) &=&  2 \frac{R}{\gamma} u(\gamma;F) \\
+ u(R;\nu) &=&  4 R \frac{ \nu \Er }{\Eit} u(\nu)\\
+ u(R;\nui) &=&  4  R \frac{ \nui \Er }{\Ei} u(\nui)\\
+ u(R;\Ei) &=&  2 \frac{\Er}{\Ei^2} (1-\nui^2) u(\Ei)\\
+ u(R;\Eit) &=& 2  \frac{\Er}{ \Eit^2} (1-\nu^2) u(\Eit)
+\end{eqnarray*}
+ \end{enumerate}
+ 

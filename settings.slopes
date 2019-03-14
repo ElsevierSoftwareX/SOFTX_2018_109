@@ -1,0 +1,8 @@
+#SETTINGS FILE FOR NIGET-CMD, TWO-SLOPES METHOD
+1 #Finputload 
+70 98 #load range from to   
+1 #fit exponent
+1 #Finputunload 
+20 98 #load range from to   
+0.4 0.07 1141e9 # for EIT only: nu, nui, Ei
+1 0.001 #noise h/nm noise F/mN

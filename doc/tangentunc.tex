@@ -1,0 +1,43 @@
+% -----------  uncertainties   tangent method ---------
+\subsubsection{Uncertainty propagation for tangent method}\label{tg_unc}
+
+
+\begin{enumerate}
+ \item 
+ Find the uncertainty of the slope $S$ (and the contributions from h and F) from the fit, see section \ref{tls}.
+ \item \label{tg_unc_hc}
+  Calculate the uncertainty of $\hc$  from equation \eqref{eq:hc}.\\
+ \begin{eqnarray}
+ u(\hc;h)^2 &=&  u(h)^2 + \left( \frac{\hmax - \hc}{S}\right)^2 u(S;h)^2 \\
+ u(\hc;F)^2 &=&  \left( \frac{\varepsilon}{S}\right)^2 u(F)^2 + \left( \frac{\hmax - \hc}{S}\right)^2 u(S;F)^2
+ \end{eqnarray}
+
+\item \label{tg_unc_H_E}
+ Calculate the uncertainties of $\Ap(\hc)$, $H_{\mathrm{IT}}$ and $\Er$ from equations \eqref{eq:Aphc} to \eqref{eq:Er}.
+ The uncertainty of $\Ap(\hc)$ for a polynom \eqref{eq:Aphc} is simple
+ \begin{equation}
+  u(\Ap(\hc)) = \ddp{ \Ap(\hc)}{\hc} u(\hc) =  \sum_{k} k c_k \hc^{k-1} u(\hc)
+ \end{equation}
+Uncertainties in the coefficients of the polynom are not taken into account. \\
+The two contributions to the hardness are
+ \begin{eqnarray} 
+u(\Hit;h)&=&    \frac{\Hit}{\Ap(\hc)} \ddp{ \Ap}{\hc} u(\hc;h) \\
+u(\Hit;F)^2 &=& 
+ \left( \frac{\Hit}{ \Fmax}\right)^2 u(F)^2 + 
+ \left( \frac{\Hit}{\Ap(\hc)} \right)^2 \left(\ddp{ \Ap}{\hc}  \right)^2 u(\hc;F)^2 \nonumber \\
+\end{eqnarray}
+The two contributions to the uncertainty of the contact modulus are
+\begin{eqnarray}
+  u(\Er;h)^2 &=& 
+  \left( \frac{ \Er}{ S}\right)^2 u(S;h)^2 + 
+ \left( \frac{ \Er}{ 2\Ap(\hc)} \right)^2 u(\Ap(\hc);h)^2 + \nonumber \\ 
+  && -  \frac{ \Er^2}{ S \Ap(\hc)} \ddp{\Ap(\hc)}{\hc} \frac{\varepsilon \Fmax}{S^2} u(S;h)^2 \\
+u(\Er;F)^2 &=& 
+ \left( \frac{ \Er}{ S}\right)^2 u(S;F)^2 + 
+ \left( \frac{ \Er}{ 2\Ap(\hc)} \right)^2 u(\Ap(\hc);F)^2 + \nonumber\\ 
+  && -  \frac{ \Er^2}{ S \Ap(\hc)} \ddp{\Ap(\hc)}{\hc} \frac{\varepsilon \Fmax}{S^2} u(S;F)^2   
+\end{eqnarray}
+\item Calculate the uncertainty of $\Eit$ as in step \ref{op_unc_Eit} in \ref{op_unc}.
+
+\end{enumerate}
+

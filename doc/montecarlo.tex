@@ -1,0 +1,29 @@
+%---------------------------------------------------------------------------------------------
+%
+%-------------------------------MONTE CARLO --------------------------------------------------
+%
+%---------------------------------------------------------------------------------------------
+\subsection{Monte Carlo calculation of uncertainties} \label{mc}
+The calculation is run by clicking the \emph{Monte Carlo} button in the Uncertainty window. After finishing a window containg the results is shown. The calculation itself is described in \ref{mc_calc}.
+A more detailed description of the use of the Monte Carlo method for the evaluation of uncertainties is in \cite{GUMSupplement1, GUMSupplement2}. 
+
+\subsubsection{Window}
+\begin{itemize}
+ \item \emph{Input of Monte Carlo simulation} shows the input values with which the calculation was run.
+ \item \emph{Results of Monte Carlo simulation} shows the mean and standard deviation calculated from the resulting PDFs. A histogram can be shown by clicking on the histogram button for each variable.
+ \item \emph{Save} save the results of this Monte Carlo simulation. This includes the mean, standard deviation, histogram and full data for each output variable.
+\end{itemize}
+Only one \emph{Monte Carlo calculation} window may be open for each method. It is closed when the Uncertainty window is closed and results are discarded.
+
+\subsubsection{Monte Carlo calculation of uncertainties: Description of method} \label{mc_calc}
+A more detailed description of the use of the Monte Carlo method for the evaluation of uncertainties is in \cite{GUMSupplement1, GUMSupplement2}. 
+The procedure is based on the propagation of probability distribution functions (PDF) of the input variables and obtaining the PDF of the output variable. 
+The input variables are varied according to a given PDF and the output variables are calculated in each case. For a large enough number of trials we obtain a PDF of the output variables, which can be further analyzed.
+Here we calculate only the mean and the standard deviation and construct a simple histogram.
+This method is very well suited for complicated measurement models, especially non-linear models or non-Gaussian PDFs of the input variables. 
+In simple cases, it gives the same results as the Gaussian law of propagation.
+Two Monte Carlo method has two significant drawbacks compared to the Gaussian law of propagation: 
+Firstly, it can become very time consuming, especially when several input variables are present. Secondly, it is impossible to separate the uncertainty contributions from different input variables. Different calculations must be made, thus increasing even more the time needed.
+Therefore, it is currently used only for the uncertainty in the depth and the load. The uncertainties in the material parameters and the tip radius (Hertz model) can be described sufficiently by the Gaussian law.
+The model uses independent, normal PDFs with constant variance for all depth and load values. Only values contained in the fitting range of the main calculation are considered, i.e., the fitting range is not determined for every individual calculation.
+This leads to a significant speed up. For well-behaved data, this should not cause any significant errors. 

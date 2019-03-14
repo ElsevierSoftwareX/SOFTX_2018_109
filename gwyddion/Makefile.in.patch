@@ -1,0 +1,33 @@
+--- Makefile.in	2017-05-15 13:52:33.547505796 +0200
++++ Makefile.in	2017-11-28 14:50:23.420239789 +0100
+@@ -7,19 +7,8 @@
+ 	libdraw \
+ 	libgwydgets \
+ 	libgwymodule \
+ 	app \
+-	gwyddion \
+-	modules \
+-	plugins \
+-	po \
+-	pixmaps \
+-	perl \
+-	python \
+-	ruby \
+-	data \
+-	utils \
+-	thumbnailer \
+-	devel-docs
++	pixmaps
+ 
+ EXTRA_DIST = \
+ 	autogen.sh \
+@@ -27,7 +16,7 @@
+ DISTCLEANFILES = gwyconfig.h
+ 
+ DISTCHECK_CONFIGURE_FLAGS = \
+-	--enable-gtk-doc \
+-	--enable-pygwy \
++	--disable-gtk-doc \
++	--disable-pygwy \
+ 	--enable-maintainer-mode \
+ 	--disable-desktop-file-update

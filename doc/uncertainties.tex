@@ -1,0 +1,83 @@
+%---------------------------------------------------------------------------------------------
+%
+%-------------------------------Uncertainties --------------------------------------------------
+%
+%---------------------------------------------------------------------------------------------
+\section{Uncertainties} \label{unc}
+Uncertainties can be calculated for the Oliver Pharr method (either fitting procedure), the tangent method and the Hertz method. 
+The uncertainty sources are the noise in the depth and load, the uncertainty in the tip radius (Hertz method) and the uncertainties in the material parameters (Poisson's ratio, Young's modulus and Poisson's ratio of indenter). 
+These are treated by the Gaussian propagation of uncertainties. The Monte Carlo method is used to treat the noise of depth load. In all cases we use a normal distribution and assume zero correlation (also between different depth values, i.e. $\rho(h_i, h_j) = 0$).
+The uncertainty of the contact point is demonstrated separately by explicitly performing the evaluation of data with different contact points and comparing them. 
+The uncertainty of the choice of the fitting interval is not implemented yet.
+
+\subsection{Window}
+In all cases, pressing the \emph{Uncertainties} button opens a separate window with the following blocks
+\begin{itemize}
+ \item \emph{Uncertainties in input values} the user can calculate the uncertainties and the individual contributions to the contact depth and area, indentation hardness and modulus and contact modulus. 
+          For the Hertz method only the uncertainties of the  contact and indentation modulus are available. 
+          These contributions are calculated using the propagation of uncertainties \cite{GUM}. Details are in sections 
+          %\ref{op_unc}, 
+          \ref{opodr_unc}, 
+          %\ref{tg_unc}, 
+          \ref{hertz_odr_unc},
+          \ref{slopes_unc}.
+ \item \emph{Uncertainties due to choice of contact point} shows results, that would be obtained, if the contact point had been chosen differently. 
+          In many cases it is non-trivial how to choose the contact point, so this can be a significant contribution to the overall uncertainty.
+ \item \emph{Save} Save the resuls of the uncertainty analysis, including the main results of the corresponding main calculation, as the uncertainty analysis refers only to this calculation.
+ \item \emph{Monte Carlo calculation of uncertainties} set the number of iterations and launch the calculation of the uncertainties using the Monte Carlo method \cite{GUMSupplement1, GUMSupplement2}. 
+            In \cite{GUMSupplement1, GUMSupplement2} a minimum value of 10 000 is recommended, however, results obtained with smaller values can be used with proper care as a first guess. 
+            For ODR, one should start with approx. 100, and then gradually increase, as this is significantly more time consuming. The procedure is described in section \ref{mc}.
+\end{itemize}
+Only one \emph{Uncertainty} window may be open for each method. Values of uncertainties are saved in (and loaded from) the settings file for future use.
+
+\subsection{Gaussian propagation of uncertainties} \label{gum}
+The standard treatment to uncertainties is described in \cite{GUM}. Here we use only the most important results. \\
+Let two quantities $Y_1$ and $Y_2$ be estimated by $y_1$ and $y_2$ and depend on a set of uncorrelated variables $X_1, X_2, \ldots, X_N$. 
+Let $u^2(x_a)$ be the estimated variance of the estimate $x_a$ of $X_a$. 
+Then the estimated variance associated with $y_i$ is given by
+\begin{equation}
+ u^2(y_i) = \sum_{a=1}^N \left( \ddp{ Y_i} { x_a}\right)^2 u^2(x_a) \label{eq:gum_uy}
+\end{equation}
+and the estimated covariance associated with $y_1$ and $y_2$ is given by
+\begin{equation}
+ u(y_i, y_j) = \sum_{a=1}^N \ddp{ Y_i} { x_a} \ddp{ Y_j} { x_a} u^2(x_a). \label{eq:gum_covy}
+\end{equation}
+Let $Z$  be estimated by $z$ and depend on the correlated quantities $Y_i, i=1, \dots, M $. Let $u^2(y_i)$ be the estimated variance of the estimate $y_i$ of $Y_i$ and $u(y_i, y_j)$ the estimate of the covariance associated with $y_i$ and $y_j$ for $i \neq j$.
+Then the estimated variance associated with $z$ is 
+\begin{equation}
+u(z)^2 = \sum_{i=1}^M  \left( \ddp{ Z} { y_i}\right)^2 u^2(y_i) + \sum_{i=1}^M \sum_{j=1, j\neq i}^M \ddp{Z}{y_i} \ddp{Z}{y_j} u (y_i, y_j)
+\end{equation}
+The covariance of variables $Z_s$ depending on the independent random variables $X_i$ through intermediate variablse $Y_a$ can be computed as.
+
+\begin{eqnarray}
+\cov(Z_s, Z_t)& =&
+\sum_{a=1}^n \frac{\partial Z_s}{\partial x_a} \frac{\partial Z_t}{\partial x_a} u(x_a)^2 \\
+&=& \sum_{a=1}^N \sum_{i=1}^M \frac{\partial Z_s}{\partial y_i} \frac{\partial Y_i}{\partial x_a}
+  \sum_{j=1}^M\frac{\partial Z_t}{\partial y_j} \frac{\partial Y_j}{\partial x_a} u(x_a)^2 \\
+  &=& \sum_{i=1}^M \sum_{j=1}^M \frac{\partial Z_s}{\partial y_i} \frac{\partial Z_t}{\partial y_j} \cov(y_i, y_j)
+\end{eqnarray}
+
+
+In our case the independent variables $X_a$ are the depth values $h_i$, load values $F_i$. We assume that they are all have a normal distribution function with the same variance, i.e. 
+\begin{eqnarray*}
+u(h_i) &= &u(h), i = 1, \dots, n \\
+u(F_i) &= &u(F), i = 1, \dots, n
+\end{eqnarray*}
+Equation \eqref{eq:gum_uy} can then be written as the sum of two terms: the sum of the contributions from the depth data and from the force data
+\begin{eqnarray*}
+ u(y)^2 &=& \sum_{i=1}^n \left( \ddp{ Y} { h_i}\right)^2 u^2(h_i) + \sum_{i=1}^n \left( \ddp{ Y} { h_i}\right)^2 u^2(h_i)\\
+ &=& u(y;h)^2 + u(y;F)^2 \\
+ u(y_a, y_b) &=& \sum_{i=1}^n \ddp{ Y_a} { h_i} \ddp{ Y_b} { h_i} u^2(h_i)+ \sum_{i=1}^n \ddp{ Y_a} { F_i} \ddp{ Y_b} { F_i} u^2(F_i) \\
+ &=& \cov(y_a, y_b; h) + \cov(y_a, y_b;F).
+\end{eqnarray*}
+
+
+For the indentation modulus we additionally need the tip radius $R$, Poisson's ratio $\nu$, Young's modulus of the indenter $E_i$ and Poisson's value of the indenter $\nu_i$. We assume that they are independent and have a normal distribution.
+
+
+
+ 
+ 
+ 
+ 
+ 

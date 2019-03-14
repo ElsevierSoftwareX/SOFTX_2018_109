@@ -1,0 +1,114 @@
+%------------------------ uncertainties for Oliver Pharr using ODR -------
+
+
+\subsubsection{Uncertainty propagation for Oliver Pharr method with ODR} \label{opodr_unc}
+The package ODRPACK does not allow to separate the contributions from depth and load uncertainty. 
+%Therefore the results differ from those given in the Oliver Pharr Uncertainty Analysis in section \ref{op_unc}. 
+The results which correspond to a fit using only the uncertainties in the depth, resp. load are shown instead of the contributions and 
+the result from a fit using both uncertainties is shown instead of the combined uncertainty.
+%This substitutes the steps No. \ref{op_unc_hpfit} - \ref{op_unc_mxy} from section \ref{op_unc}. The steps No. \ref{op_unc_S_hc} and \ref{op_unc_H_E} must be modified
+%to include also the covariance of $m$ and $\hp$ which is present here (in contrast to section \ref{op_unc}). Steps No. \ref{op_unc_eps}, \ref{op_unc_A} and \ref{op_unc_Eit} is the same.
+\begin{enumerate}
+ \item \label{opodr_odrpack_unc}
+ Obtain the uncertainties of $m$ and $\hp$, as well as their covariance from ODRPACK, see \ref{odrpack_teorie_unc}.
+ 
+\item \label{opodr_unc_eps}
+  %Same as step \ref{op_unc_eps} in section \ref{op_unc}.
+ Calculate the uncertainty of $\varepsilon$ from equation \eqref{eq:eps}.\\
+For $\varepsilon$  we find
+ \begin{eqnarray} \label{eq:ueps}
+  u (\varepsilon ;h) &=& u(m;h) \left[ 
+  \frac{\varepsilon}{m} - \frac{\varepsilon -m}{m -1}  - \frac{\varepsilon - m}{2(m-1)^2} (\psi_0(z)-\psi_0(w)) \right], 
+ \end{eqnarray}
+ with $z = \frac{m}{2(m-1)}$, and $w = \frac1{2(m-1)}$ 
+ and similarly for $u(\varepsilon ; F)$. 
+ The derivative $\mathrm{d} \varepsilon /\mathrm{d} m$ is needed in further calculations
+ \begin{equation} \label{eq:depsdm}
+  \depsdm = \frac{\varepsilon}{m} + \frac{\varepsilon -m}{m -1}  - \frac{\varepsilon - m}{2(m-1)^2} (\psi_0(z)-\psi_0(w)) 
+ \end{equation}
+ 
+  
+\item \label{opodr_unc_S_hc}
+ For $S$ we get
+\begin{eqnarray}
+ u(S;h)^2 &=& 
+ \left( \frac{S}{m}\right)^2 u(m;h)^2 + 
+ \left( \frac{S}{\hmax-\hp} \right)^2 u(h)^2 + \nonumber\\ 
+  &&+ \left( \frac{S}{\hmax- \hp}\right)^2 u(\hp;h)^2 
+   + \frac{2S^2}{m(\hmax -  \hp)} \cov(m,\hp;h)  \nonumber\\
+    u(S;F)^2 &=& 
+ \left( \frac{S}{m}\right)^2 u(m;F)^2 + 
+ \left( \frac{S}{\Fmax} \right)^2 u(F)^2 + \nonumber \\ 
+    &&+ \left( \frac{S}{\hmax- \hp}\right)^2 u(\hp;F)^2 
+   + \frac{2S^2}{m(\hmax -  \hp)} \cov(m,\hp;F)  \nonumber \\
+   \label{eq:unc_Sunload}
+ \end{eqnarray}
+For $\hc$ we obtain
+  \begin{eqnarray}
+   u(\hc;h)^2 &=& 
+   \left( \hmax - \hp \right)^2 \left( \frac{\varepsilon}{m^2} - \frac1m \depsdm \right)^2 u(m;h)^2 + 
+                  \left( 1- \frac{\varepsilon}{m}\right)^2 u(\hmax;h)^2 + \nonumber
+    \\ && + \left(\frac{\varepsilon }{m} \right)^2 u(\hp;h)^2 +
+          2 \left( \hmax - \hp \right) \left( \frac{\varepsilon}{m^2} - \frac1m \depsdm \right) \frac{\varepsilon }{m}  \cov(m,\hp;h)   \\
+u(\hc;F)^2 &=& 
+   \left( \hmax - \hp \right)^2 \left( \frac{\varepsilon}{m^2} - \frac1m \depsdm \right)^2 u(m;F)^2 + 
+  \left(\frac{\varepsilon }{m} \right)^2 u(\hp;F)^2 + \nonumber
+    \\  && + 2 \left( \hmax - \hp \right) \left( \frac{\varepsilon}{m^2} - \frac1m \depsdm \right) \frac{\varepsilon }{m}  \cov(m,\hp;F)   
+  \end{eqnarray}
+
+  \item \label{opodr_unc_A}
+%  Same as step \ref{op_unc_A} in section \ref{op_unc}.
+Calculate the uncertainties of $\Ap(\hc)$, $H_{\mathrm{IT}}$ and $\Er$ from equations \eqref{eq:Aphc} to \eqref{eq:Er}.
+ The uncertainty of $\Ap(\hc)$ for a polynom \eqref{eq:Aphc} is simple
+ \begin{equation}
+  u(\Ap(\hc)) = \ddp{ \Ap(\hc)}{\hc} u(\hc) =  \sum_{k} k c_k \hc^{k-1} u(\hc)
+ \end{equation}
+Uncertainties in the coefficients of the polynom are not taken into account. \\
+
+\item \label{opodr_unc_H_E}
+The two contributions to the hardness are
+ \begin{eqnarray} 
+u(\Hit;h)&=&    \frac{\Hit}{\Ap(\hc)} \ddp{ \Ap}{\hc} u(\hc;h) \\
+u(\Hit;F)^2 &=& 
+ \left( \frac{\Hit}{ \Fmax}\right)^2 u(F)^2 + 
+ \left( \frac{\Hit}{\Ap(\hc)} \right)^2 \left(\ddp{ \Ap}{\hc}  \right)^2 u(\hc;F)^2 \nonumber \\
+\end{eqnarray}
+The two contributions to the contact modulus are
+\begin{eqnarray}
+ u(\Er;h)^2 &=& 
+ \left( \frac{ \Er}{ S}\right)^2 u(S;h)^2 + 
+ \left( \frac{ \Er}{ 2\Ap(\hc)} \right)^2 u(\Ap(\hc);h)^2 + \nonumber \\ 
+  && -  \frac{ \Er}{ S}\frac{ \Er}{ \Ap(\hc)} \ddp{\Ap}{\hc} \cov(S,\hc;h) \\
+ u(\Er;F)^2 &=& 
+ \left( \frac{ \Er}{ S}\right)^2 u(S;F)^2 + 
+ \left( \frac{ \Er}{ 2\Ap(\hc)} \right)^2 u(\Ap(\hc);F)^2 + \nonumber \\ 
+  && -  \frac{ \Er}{ S}\frac{ \Er}{ \Ap(\hc)} \ddp{\Ap}{\hc} \cov(S,\hc;F)    
+\end{eqnarray}
+where the covariances $\cov(S,\hc;h)$ and $\cov(S,\hc;F)$ are
+\begin{eqnarray}
+  \cov(S,\hc;h) 
+  &=& 
+  -\frac{ S(1-\varepsilon) }{ \hmax-\hp}  u(h)^2 
+  - \frac{S\left( \hmax - \hp\right)}{m}  \depsdm  u(m;h)^2  \nonumber \\
+  &&+
+  \frac{ S \varepsilon}{\hmax- \hp}  u(\hp;h)^2 + \nonumber\\
+  && +S \left( \frac{ \varepsilon }{ m}  - \depsdm \right)  \cov(\hp, m;h) \\
+\cov(S,\hc;F) 
+  &=&
+   - \frac{ S }{ m} \left(\hmax -\hp\right) \depsdm  u(m;F)^2  +  \frac{ S \varepsilon }{\hmax - \hp} u(\hp,F)^2  \nonumber \\
+  && +S \left( \frac{ \varepsilon }{ m}  - \depsdm \right)  \cov(\hp, m;F)
+   \end{eqnarray}
+
+\item \label{opodr_unc_Eit}
+ % Same as step \ref{op_unc_Eit} in section \ref{op_unc}.
+ Combine the uncertainties originating in depth and load $u(\Er;h)$ and $u(\Er;F)$ with the uncertainties of the material parameters $\nu$, $\nui$ and $\Ei$.
+  The contributions are
+  \begin{eqnarray}
+   u(\Eit;\nu)  &=& \frac{2\nu}{1-\nu^2} \Eit u(\nu) \\ 
+   u(\Eit;\nui) &=& \frac{2\nui}{1-\nu^2} \frac{\Eit^2}{\Ei} u(\nui) \\
+   u(\Eit;\Ei) &=& \frac{(1-\nui^2)}{(1-\nu)^2} \frac{\Eit^2}{\Ei^2} u(\Ei) \\
+   u(\Eit;\Er) &=& \frac{\Eit^2}{\Er^2 (1-\nu^2)} \sqrt{ u(\Er;h)^2 + u(\Er;F)^2}
+  \end{eqnarray}
+
+
+\end{enumerate}

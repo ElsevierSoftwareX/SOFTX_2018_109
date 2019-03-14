@@ -1,0 +1,4 @@
+#SETTINGS FILE FOR NIGET-CMD, UNCERTAINTIES
+0.1 0.00004 #noise h/nm noise F/mN
+0.1 0.1 20e9 # unc(nu), unc(nui), unc(Ei)
+20e-9 5e9 5e9 #for Hertz only: unc(radius), unc(Er), unc(Eit)

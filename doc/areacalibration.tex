@@ -1,0 +1,48 @@
+\section{Area calibration}
+{\Large \bf include when done} \\
+Rewriting expression \eqref{eq:Er} for the area 
+
+\begin{equation}
+A = \frac{\pi S^2}{4\beta^2 \Er^2}
+\end{equation}
+
+the uncertainty has two terms
+\begin{equation}
+u(A) = \sqrt{ \left( \frac{\partial A}{\partial S}\right)^2 u(S)^2 + \left( \frac{\partial A}{\partial \Er}\right)^2 u(\Er)^2 }
+\end{equation}
+The first term comes entirely from the data (noise, contact, acquisition, \dots) the second is the uncertainty of the reference sample used.
+The derivatives are simple
+\begin{eqnarray}
+\frac{\partial A}{\partial S} &=& \frac{2 \pi S}{4\beta^2 \Er^2} \\
+\frac{\partial A}{\partial \Er} &=& -2\frac{\pi S^2}{4\beta^2  \Er^3}
+\end{eqnarray}
+
+Furthermore we need the covariance between the contact depth and the contact area.
+
+\begin{eqnarray}
+\mathrm{cov} (A, \hc) &=& \frac{\partial A}{\partial S} \mathrm{cov} (S, \hc) \\
+&=& \frac{\partial A}{\partial S} \left[
+\frac{\partial S}{\partial m}\frac{\partial \hc}{\partial m} u(m)^2 +
+\frac{\partial S}{\partial \hmax}\frac{\partial \hc}{\partial \hmax} u(\hmax)^2 +
+\frac{\partial S}{\partial \hp}\frac{\partial \hc}{\partial \hp} u(\hp)^2 + \right.\\
+&& \left.\left( +
+\frac{\partial S}{\partial m}\frac{\partial \hc}{\partial \hp}  +
+\frac{\partial S}{\partial \hp}\frac{\partial \hc}{\partial m}  +
+\right) \mathrm{cov}(m, \hp)
+\right]
+\end{eqnarray}
+where we assumed that $\hmax$, $\Fmax$ are unccorrelated with $m$ and $\hp$ and each other.
+The necessary derivatives are
+\begin{eqnarray}
+\frac{\partial S}{\partial m} &=& \frac{ \Fmax}{\hmax-\hp} \\
+\frac{\partial S}{\partial \hmax} &=&  -\frac{m \Fmax}{(\hmax-\hp)^2} \\
+\frac{\partial S}{\partial \hp} &=& \frac{m \Fmax}{(\hmax-\hp)^2}\\
+\frac{\partial \hc}{\partial m} &=& \left(-\depsdm \frac1m + \frac{\varepsilon}{m^2} \right) (\hmax-\hp)\\
+\frac{\partial \hc}{\partial \hmax} &=& 1- \frac{\varepsilon}{m}\\
+\frac{\partial \hc}{\partial \hp} &=& \frac{\varepsilon}{m}
+\end{eqnarray}
+since
+\begin{eqnarray*}
+ S &=& m \frac{\Fmax}{\hmax -\hp} \\
+ \hc &=& \hmax - \frac{\varepsilon}{m} ( \hmax - \hp)
+\end{eqnarray*}

@@ -1,0 +1,83 @@
+%--------------------- uncertainties for two slopes method ------------------------------
+ 
+ \subsubsection{Uncertainty propagation for two slopes method with ODR} \label{slopes_unc}
+The package ODRPACK does not allow to separate the contributions from depth and load uncertainty. 
+The results which correspond to a fit using only the uncertainties in the depth, resp. load are shown instead of the contributions and 
+the result from a fit using both uncertainties is shown instead of the combined uncertainty.
+In the following we assume that neither fit includes the $(\hmax, \Fmax)$ point and that the fits are independent.
+
+\begin{enumerate}
+ \item \label{slopes_odrpack_unc}
+ Obtain the uncertainties of $n$, $h_0$, $m$, $\hp$, and their covariance from ODRPACK, see \ref{odrpack_teorie_unc}.
+ 
+\item \label{slopes_unc_eps}
+  Same as step \ref{opodr_unc_eps} in section \ref{opodr_unc}.
+
+\item \label{slopes_unc_SS}
+ The unloading slope $\Sunload$ is the same as in step \ref{opodr_unc_S_hc} in section \ref{opodr_unc}. The uncertainty of the loading slope is analogous to \eqref{eq:unc_Sunload}
+\begin{eqnarray}
+ u(\Sload;h)^2 &=& 
+ \left( \frac{\Sload}{n}\right)^2 u(n;h)^2 + 
+ \left( \frac{\Sload}{\hmax-h_0} \right)^2 u(h)^2 + \nonumber\\ 
+  &&+ \left( \frac{\Sload}{\hmax- h_0}\right)^2 u(h_0;h)^2 
+   + \frac{2\Sload^2}{n(\hmax - h_0)} \cov(n,h_0;h)  \nonumber\\
+    u(\Sload;F)^2 &=& 
+ \left( \frac{\Sload}{n}\right)^2 u(n;F)^2 + 
+ \left( \frac{\Sload}{\Fmax} \right)^2 u(F)^2 + \nonumber \\ 
+    &&+ \left( \frac{\Sload}{\hmax- h_0}\right)^2 u(h_0;F)^2 
+   + \frac{2\Sload^2}{n(\hmax - h_0)} \cov(n,h_0;F)  \nonumber \\
+\end{eqnarray}
+Furthermore we will need the covariance of $\Sunload$ and $\varepsilon$
+\begin{eqnarray}
+ \cov(\Sunload, \varepsilon;h ) &=& \ddp{\varepsilon}m \cov(\Sunload, m;h) \nonumber\\
+ &=& \ddp{\varepsilon}m \left[ m\frac{\Fmax}{(\hmax-\hp)^2} \cov(\hp,m;h) + \frac{\Fmax}{\hmax - \hp} u(m;h)^2 \right] \nonumber\\
+ \cov(\Sunload, \varepsilon; F) &=& \ddp{\varepsilon}m \cov(\Sunload, m;F) \nonumber\\
+ &=& \ddp{\varepsilon}m \left[ m\frac{\Fmax}{(\hmax-\hp)^2} \cov(\hp,m;F) + \frac{\Fmax}{\hmax - \hp} u(m;F)^2 \right] \nonumber \\
+ \end{eqnarray}
+
+\item \label{slopes_unc_K}
+It is practical to calculate the uncertainties of the auxiliary term $K$ given as
+\begin{equation}
+ K = \frac{2 \Sunload -\beta \varepsilon \Sload}{\Sunload \Sload} = \frac2{\Sload} - \frac{\beta \varepsilon }{\Sunload}
+\end{equation}
+These are
+\begin{eqnarray}
+ u(K;h)^2  &=& 
+ \left( \frac{-2}{\Sload^2} \right)^2 u(\Sload;h)^2 + \left( \frac{\beta \varepsilon}{\Sunload^2} \right)^2 u(\Sunload;h)^2 +  \left( \frac{\beta}{\Sunload} \right)^2 u(\varepsilon;h)^2 \nonumber \\ 
+ && + \frac{\beta \varepsilon}{\Sunload^2} \cov(\Sunload, \varepsilon;h) \nonumber\\
+ %
+u(K;F)^2  &=& \left( \frac{-2}{\Sload^2} \right)^2 u(\Sload;F)^2 + \left( \frac{\beta \varepsilon}{\Sunload^2} \right)^2 u(\Sunload;F)^2 +  \left( \frac{\beta}{\Sunload} \right)^2 u(\varepsilon;F)^2 \nonumber\\
+&& + \frac{\beta \varepsilon}{\Sunload^2} \cov(\Sunload, \varepsilon;F) \nonumber \\
+\end{eqnarray}
+We will also need the covariance
+\begin{eqnarray}
+ \cov(\Sunload,K;h) &=& \frac{\beta \varepsilon}{\Sunload^2} u(\Sunload;h)^2 + \frac{-\beta}{\Sunload} \cov(\Sunload, \varepsilon;h) \nonumber \\
+ \cov(\Sunload,K;F) &=& \frac{\beta \varepsilon}{\Sunload^2} u(\Sunload;F)^2 + \frac{-\beta}{\Sunload} \cov(\Sunload, \varepsilon;F) \nonumber \\
+\end{eqnarray}
+
+
+\item \label{slopes_unc_A_H_E}
+In terms of $K$ the uncertainties of the contact area, hardness and contact modulus can be expressed as
+\begin{eqnarray}
+ u(A;h) &=& A \frac{u(K;h)}{K} \nonumber \\
+ u(A;F)^2 &=&  \left(2 A \frac{u(K;h)}{K} \right)^2 + \left(2 A \frac{u(\Fmax)}{\Fmax} \right)^2 \nonumber \\
+ \end{eqnarray}
+\begin{eqnarray}
+ u(\Hit;h) &=& 2 A \frac{u(K;h)}{K} \nonumber \\
+ u(\Hit;F)^2 &=& \left( 2 A \frac{u(K;F)}{K} \right)^2 + \left( A\frac{u(\Fmax)}{\Fmax} \right)^2 \nonumber \\
+\end{eqnarray}
+and 
+\begin{eqnarray}
+ u(\Er;h)^2  &=& \left( \Er \frac{u(\Sunload;h)}{\Sunload}  \right)^2  +  \left( \Er \frac{u(K;h)}{K}  \right)^2 -\Er^2 \frac{\cov(\Sunload,K;h)}{K\Sunload}  \nonumber \\ 
+ u(\Er;F)^2  &=& \left( \Er \frac{u(\Sunload;F)}{\Sunload}  \right)^2  +  \left( \Er \frac{u(K;F)}{K}  \right)^2 + \left( \Er \frac{u(F)}{\Fmax} \right)^2  \nonumber\\
+&& - \Er^2 \frac{\cov(\Sunload,K;F)}{K\Sunload}
+\end{eqnarray}
+
+
+
+
+\item \label{slopes_unc_Eit}
+  Same as step \ref{opodr_unc_Eit} in section \ref{opodr_unc}.
+
+
+\end{enumerate}

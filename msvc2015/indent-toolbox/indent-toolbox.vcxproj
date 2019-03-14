@@ -1,0 +1,288 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{7EFD30BF-6601-4BA4-83A4-A9E027232216}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>libgwyscan</RootNamespace>
+    <TargetPlatformVersion>8.1</TargetPlatformVersion>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140_xp</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140_xp</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+    <UseOfMfc>false</UseOfMfc>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <IncludePath>$(SolutionDir)..\;$(GWYDDION_DIR);$(GTK_DIR)Win32\include\;$(GTK_DIR)Win32\include\atk-1.0\;$(GTK_DIR)Win32\include\cairo\;$(GTK_DIR)Win32\include\gdk-pixbuf-2.0\;$(GTK_DIR)Win32\include\glib-2.0\;$(GTK_DIR)Win32\include\gtk-2.0\;$(GTK_DIR)Win32\include\pango-1.0\;$(GTK_DIR)Win32\lib\glib-2.0\include\;$(GTK_DIR)Win32\lib\gtk-2.0\include\;$(GTKGLEXT_DIR)Win32\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(OutDir);$(LibraryPath);$(GTK_DIR)Win32\lib;$(GWYDDION_DIR)msvc2015\Debug\</LibraryPath>
+    <TargetName>niget</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+    <IncludePath>$(SolutionDir)..\;$(GWYDDION_DIR);$(GTK_DIR)Win32\include\;$(GTK_DIR)Win32\include\atk-1.0\;$(GTK_DIR)Win32\include\cairo\;$(GTK_DIR)Win32\include\gdk-pixbuf-2.0\;$(GTK_DIR)Win32\include\glib-2.0\;$(GTK_DIR)Win32\include\gtk-2.0\;$(GTK_DIR)Win32\include\pango-1.0\;$(GTK_DIR)Win32\lib\glib-2.0\include\;$(GTK_DIR)Win32\lib\gtk-2.0\include\;$(GTKGLEXT_DIR)Win32\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(OutDir);$(LibraryPath);$(GTK_DIR)Win32\lib;$(GWYDDION_DIR)msvc2015\x64\Debug\</LibraryPath>
+    <TargetName>niget</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <IncludePath>$(SolutionDir)..\;$(GWYDDION_DIR);$(GTK_DIR)Win32\include\;$(GTK_DIR)Win32\include\atk-1.0\;$(GTK_DIR)Win32\include\cairo\;$(GTK_DIR)Win32\include\gdk-pixbuf-2.0\;$(GTK_DIR)Win32\include\glib-2.0\;$(GTK_DIR)Win32\include\gtk-2.0\;$(GTK_DIR)Win32\include\pango-1.0\;$(GTK_DIR)Win32\lib\glib-2.0\include\;$(GTK_DIR)Win32\lib\gtk-2.0\include\;$(GTKGLEXT_DIR)Win32\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(OutDir);$(LibraryPath);$(GTK_DIR)Win32\lib;$(GWYDDION_DIR)msvc2015\Release\</LibraryPath>
+    <TargetName>niget</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+    <IncludePath>$(SolutionDir)..\;$(GWYDDION_DIR);$(GTK_DIR)Win32\include\;$(GTK_DIR)Win32\include\atk-1.0\;$(GTK_DIR)Win32\include\cairo\;$(GTK_DIR)Win32\include\gdk-pixbuf-2.0\;$(GTK_DIR)Win32\include\glib-2.0\;$(GTK_DIR)Win32\include\gtk-2.0\;$(GTK_DIR)Win32\include\pango-1.0\;$(GTK_DIR)Win32\lib\glib-2.0\include\;$(GTK_DIR)Win32\lib\gtk-2.0\include\;$(GTKGLEXT_DIR)Win32\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(OutDir);$(LibraryPath);$(GTK_DIR)Win32\lib;$(GWYDDION_DIR)msvc2015\x64\Release\</LibraryPath>
+    <TargetName>niget</TargetName>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_CRT_SECURE_NO_WARNINGS;_DEBUG;_WINDOWS;_USRDLL;LIBGWYSCAN_EXPORTS;%(PreprocessorDefinitions);/DVERBOSE</PreprocessorDefinitions>
+      <AdditionalOptions>/we4029  /we4047 /we4024 /we4013 %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;glib-2.0.lib;gobject-2.0.lib;gdk-win32-2.0.lib;gtk-win32-2.0.lib;libgwyapp2-0.lib;libgwyddion2-0.lib;libgwydgets2-0.lib;libgwydraw2-0.lib;libgwymodule2-0.lib;libgwyprocess2-0.lib;odr.lib;gio-2.0.lib</AdditionalDependencies>
+    </Link>
+    <PreBuildEvent>
+      <Command>
+      </Command>
+    </PreBuildEvent>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN64;_CRT_SECURE_NO_WARNINGS;_DEBUG;_WINDOWS;_USRDLL;LIBGWYSCAN_EXPORTS;%(PreprocessorDefinitions);NOFORTRAN;/DVERBOSE</PreprocessorDefinitions>
+      <AdditionalOptions>/we4029  /we4047 /we4024 /we4013 %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;glib-2.0.lib;gobject-2.0.lib;gdk-win32-2.0.lib;gtk-win32-2.0.lib;libgwyapp2-0.lib;libgwyddion2-0.lib;libgwydgets2-0.lib;libgwydraw2-0.lib;libgwymodule2-0.lib;libgwyprocess2-0.lib;$(SolutionDir)$(Configuration)\odr.lib;gio-2.0.lib</AdditionalDependencies>
+    </Link>
+    <PreBuildEvent>
+      <Command>
+      </Command>
+    </PreBuildEvent>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;_CRT_SECURE_NO_WARNINGS;NDEBUG;_WINDOWS;_USRDLL;LIBGWYSCAN_EXPORTS;%(PreprocessorDefinitions);/DVERBOSE</PreprocessorDefinitions>
+      <PrecompiledHeaderFile />
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <AdditionalOptions>/we4029  /we4047 /we4024 /we4013 %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;glib-2.0.lib;gobject-2.0.lib;gdk-win32-2.0.lib;gtk-win32-2.0.lib;libgwyapp2-0.lib;libgwyddion2-0.lib;libgwydgets2-0.lib;libgwydraw2-0.lib;libgwymodule2-0.lib;libgwyprocess2-0.lib;$(SolutionDir)$(Configuration)\odr.lib;gio-2.0.lib</AdditionalDependencies>
+    </Link>
+    <PreBuildEvent>
+      <Command>
+      </Command>
+    </PreBuildEvent>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN64;_CRT_SECURE_NO_WARNINGS;NDEBUG;_WINDOWS;_USRDLL;LIBGWYSCAN_EXPORTS;%(PreprocessorDefinitions);NOFORTRAN;/DVERBOSE</PreprocessorDefinitions>
+      <PrecompiledHeaderFile>
+      </PrecompiledHeaderFile>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <AdditionalOptions>/we4029  /we4047 /we4024 /we4013 %(AdditionalOptions)</AdditionalOptions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;glib-2.0.lib;gobject-2.0.lib;gdk-win32-2.0.lib;gtk-win32-2.0.lib;libgwyapp2-0.lib;libgwyddion2-0.lib;libgwydgets2-0.lib;libgwydraw2-0.lib;libgwymodule2-0.lib;libgwyprocess2-0.lib;$(SolutionDir)$(Configuration)\odr.lib;gio-2.0.lib</AdditionalDependencies>
+    </Link>
+    <PreBuildEvent>
+      <Command>
+      </Command>
+    </PreBuildEvent>
+    <PostBuildEvent>
+      <Command>
+      </Command>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\dialog_about.c" />
+    <ClCompile Include="..\..\dialog_area_calibration.c" />
+    <ClCompile Include="..\..\fddata.c" />
+    <ClCompile Include="..\..\file-utils.c" />
+    <ClCompile Include="..\..\fit-utils.c" />
+    <ClCompile Include="..\..\getline.c" />
+    <ClCompile Include="..\..\gui-utils.c" />
+    <ClCompile Include="..\..\indent-toolbox-common.c" />
+    <ClCompile Include="..\..\indent-toolbox.c" />
+    <ClCompile Include="..\..\instrument.c" />
+    <ClCompile Include="..\..\mc-utils.c" />
+    <ClCompile Include="..\..\settings.c" />
+    <ClCompile Include="..\..\tool_apopins.c" />
+    <ClCompile Include="..\..\tool_contact.c" />
+    <ClCompile Include="..\..\tool_creep.c" />
+    <ClCompile Include="..\..\tool_epwork.c" />
+    <ClCompile Include="..\..\tool_epwork_unc.c" />
+    <ClCompile Include="..\..\tool_hertz.c" />
+    <ClCompile Include="..\..\tool_hertz_mc.c" />
+    <ClCompile Include="..\..\tool_hertz_odr.c" />
+    <ClCompile Include="..\..\tool_hertz_odr_mc.c" />
+    <ClCompile Include="..\..\tool_hertz_odr_unc.c" />
+    <ClCompile Include="..\..\tool_hertz_unc.c" />
+    <ClCompile Include="..\..\tool_op.c" />
+    <ClCompile Include="..\..\tool_op_odr.c" />
+    <ClCompile Include="..\..\tool_op_odr_unc.c" />
+    <ClCompile Include="..\..\tool_op_odr_unc_gui.c" />
+    <ClCompile Include="..\..\tool_op_unc.c" />
+    <ClCompile Include="..\..\tool_op_unc_gui.c" />
+    <ClCompile Include="..\..\tool_Ph2.c" />
+    <ClCompile Include="..\..\tool_ppopins.c" />
+    <ClCompile Include="..\..\tool_relax.c" />
+    <ClCompile Include="..\..\tool_tangent.c" />
+    <ClCompile Include="..\..\tool_tangent_unc.c" />
+    <ClCompile Include="..\..\tool_tangent_unc_gui.c" />
+    <ClCompile Include="..\..\tool_twoslopes.c" />
+    <ClCompile Include="..\..\tool_twoslopes_unc.c" />
+    <ClCompile Include="..\..\tool_twoslopes_unc_gui.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\controls.h" />
+    <ClInclude Include="..\..\datatypes.h" />
+    <ClInclude Include="..\..\dialog_about.h" />
+    <ClInclude Include="..\..\dialog_area_calibration.h" />
+    <ClInclude Include="..\..\fddata.h" />
+    <ClInclude Include="..\..\file-utils.h" />
+    <ClInclude Include="..\..\fit-utils.h" />
+    <ClInclude Include="..\..\getline.h" />
+    <ClInclude Include="..\..\gui-utils.h" />
+    <ClInclude Include="..\..\indent-toolbox-common.h" />
+    <ClInclude Include="..\..\indent-toolbox.h" />
+    <ClInclude Include="..\..\instrument.h" />
+    <ClInclude Include="..\..\mc-utils.h" />
+    <ClInclude Include="..\..\settings.h" />
+    <ClInclude Include="..\..\tool_apopins.h" />
+    <ClInclude Include="..\..\tool_contact.h" />
+    <ClInclude Include="..\..\tool_creep.h" />
+    <ClInclude Include="..\..\tool_epwork.h" />
+    <ClInclude Include="..\..\tool_epwork_unc.h" />
+    <ClInclude Include="..\..\tool_hertz.h" />
+    <ClInclude Include="..\..\tool_hertz_mc.h" />
+    <ClInclude Include="..\..\tool_hertz_odr.h" />
+    <ClInclude Include="..\..\tool_hertz_odr_mc.h" />
+    <ClInclude Include="..\..\tool_hertz_odr_unc.h" />
+    <ClInclude Include="..\..\tool_hertz_unc.h" />
+    <ClInclude Include="..\..\tool_op.h" />
+    <ClInclude Include="..\..\tool_op_odr.h" />
+    <ClInclude Include="..\..\tool_op_odr_unc.h" />
+    <ClInclude Include="..\..\tool_op_odr_unc_gui.h" />
+    <ClInclude Include="..\..\tool_op_unc.h" />
+    <ClInclude Include="..\..\tool_op_unc_gui.h" />
+    <ClInclude Include="..\..\tool_Ph2.h" />
+    <ClInclude Include="..\..\tool_ppopins.h" />
+    <ClInclude Include="..\..\tool_relax.h" />
+    <ClInclude Include="..\..\tool_tangent.h" />
+    <ClInclude Include="..\..\tool_tangent_unc.h" />
+    <ClInclude Include="..\..\tool_tangent_unc_gui.h" />
+    <ClInclude Include="..\..\tool_twoslopes.h" />
+    <ClInclude Include="..\..\tool_twoslopes_unc.h" />
+    <ClInclude Include="..\..\tool_twoslopes_unc_gui.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

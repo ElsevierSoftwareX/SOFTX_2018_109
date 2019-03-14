@@ -1,0 +1,20 @@
+Niget dataformat specification
+==============================
+
+#NIGET a b c d
+x0     y0
+x1     y1
+x2     y2
+...    ...
+xn     yn
+
+- a, b, c, d: integers
+- 0 <= a <= b <= c <= d <= n
+
+- a:    contact point
+- b:    load-hold
+- c:    hold-unload
+- d:    end unload
+
+- x0, ..., xn	depth in nm
+- y0, ..., yn	force in mN
